@@ -18,7 +18,7 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
   --bg:#0a0f1e;--bg2:#111827;--bg3:#1a2235;
-  --accent:#4f8ef7;--accent2:#3a7bd5;--accent-glow:rgba(79,142,247,0.15);
+  --accent:#4f8ef7;--accent-glow:rgba(79,142,247,0.15);
   --gold:#f5a623;--gold-soft:rgba(245,166,35,0.12);
   --red:#e85d5d;--red-soft:rgba(232,93,93,0.12);
   --green:#3ecf8e;--green-soft:rgba(62,207,142,0.12);
@@ -29,73 +29,45 @@
 html,body{height:100%;background:var(--bg);color:var(--white);font-family:'DM Sans',sans-serif;-webkit-font-smoothing:antialiased;overscroll-behavior:none}
 body{display:flex;flex-direction:column;min-height:100dvh}
 
-/* ── LOADING ── */
+/* LOADING */
 #loading{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;z-index:999}
-.load-logo{font-size:32px;font-weight:600;letter-spacing:-1px;color:var(--white)}
+.load-logo{font-size:32px;font-weight:600;letter-spacing:-1px}
 .load-sub{font-size:11px;color:var(--muted);letter-spacing:2px;text-transform:uppercase}
 .spinner{width:24px;height:24px;border:2px solid var(--border2);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite;margin-top:8px}
 @keyframes spin{to{transform:rotate(360deg)}}
 
-/* ── LOGIN ── */
-#login{flex:1;display:none;flex-direction:column;align-items:center;justify-content:center;padding:40px 28px;gap:0}
-.login-mark{font-size:40px;font-weight:700;letter-spacing:-2px;color:var(--white);line-height:1}
+/* LOGIN */
+#login{flex:1;display:none;flex-direction:column;align-items:center;justify-content:center;padding:40px 28px}
+.login-mark{font-size:40px;font-weight:700;letter-spacing:-2px;line-height:1}
 .login-tagline{font-size:12px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin:8px 0 48px}
-.google-btn{
-  display:flex;align-items:center;justify-content:center;gap:12px;
-  width:100%;max-width:320px;padding:15px 20px;
-  background:var(--white);color:#1a1a2e;border:none;border-radius:var(--r-sm);
-  font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;cursor:pointer;
-  transition:opacity .15s;-webkit-tap-highlight-color:transparent;
-}
+.google-btn{display:flex;align-items:center;justify-content:center;gap:12px;width:100%;max-width:320px;padding:15px 20px;background:var(--white);color:#1a1a2e;border:none;border-radius:var(--r-sm);font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;cursor:pointer;transition:opacity .15s;-webkit-tap-highlight-color:transparent}
 .google-btn:active{opacity:.85}
 .google-icon{width:20px;height:20px;flex-shrink:0}
 .login-note{font-size:12px;color:var(--muted);margin-top:20px;text-align:center;line-height:1.7}
 .login-restricted{font-size:11px;color:var(--muted2);margin-top:8px;text-align:center}
 
-/* ── HEADER ── */
-.app-header{
-  background:var(--bg);padding:env(safe-area-inset-top,0px) 0 0;
-  padding-top:max(env(safe-area-inset-top,0px),0px);
-  position:sticky;top:0;z-index:100;border-bottom:1px solid var(--border)
-}
+/* HEADER */
+.app-header{background:var(--bg);padding-top:max(env(safe-area-inset-top,0px),0px);position:sticky;top:0;z-index:100;border-bottom:1px solid var(--border)}
 .header-inner{display:flex;align-items:center;justify-content:space-between;padding:14px 18px}
 .logo{font-size:18px;font-weight:600;letter-spacing:-0.5px}
 .logo span{color:var(--accent)}
-.user-chip{
-  display:flex;align-items:center;gap:8px;padding:6px 10px 6px 7px;
-  border-radius:20px;border:1px solid var(--border);background:var(--bg3);
-  cursor:pointer;-webkit-tap-highlight-color:transparent;transition:background .15s
-}
+.user-chip{display:flex;align-items:center;gap:8px;padding:6px 10px 6px 7px;border-radius:20px;border:1px solid var(--border);background:var(--bg3);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:background .15s}
 .user-chip:active{background:var(--bg2)}
 .uavatar{width:24px;height:24px;border-radius:50%;object-fit:cover;flex-shrink:0}
-.uname{font-size:12px;color:var(--muted);font-weight:400}
+.uname{font-size:12px;color:var(--muted)}
 .tabs{display:flex;overflow-x:auto;scrollbar-width:none;padding:0 4px}
 .tabs::-webkit-scrollbar{display:none}
-.tab{
-  flex-shrink:0;padding:11px 14px;font-size:13px;color:var(--muted);cursor:pointer;
-  border-bottom:2px solid transparent;transition:all .18s;white-space:nowrap;
-  background:none;border-left:none;border-right:none;border-top:none;
-  font-family:'DM Sans',sans-serif;letter-spacing:.2px
-}
+.tab{flex-shrink:0;padding:11px 14px;font-size:13px;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:all .18s;white-space:nowrap;background:none;border-left:none;border-right:none;border-top:none;font-family:'DM Sans',sans-serif}
 .tab.active{color:var(--accent);border-bottom-color:var(--accent);font-weight:500}
-
-/* ── SYNC ── */
-.sync-bar{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:6px 18px;background:rgba(79,142,247,0.04);
-  border-bottom:1px solid var(--border);font-size:11px;color:var(--muted);
-  font-family:'DM Mono',monospace
-}
-.s-dot{width:6px;height:6px;border-radius:50%;background:var(--green);display:inline-block;margin-right:5px;vertical-align:middle;transition:background .3s}
-.s-dot.live{animation:blink 2s infinite}
-.s-dot.err{background:var(--red)}
+.sync-bar{display:flex;align-items:center;justify-content:space-between;padding:6px 18px;background:rgba(79,142,247,0.04);border-bottom:1px solid var(--border);font-size:11px;color:var(--muted);font-family:'DM Mono',monospace}
+.s-dot{width:6px;height:6px;border-radius:50%;background:var(--green);display:inline-block;margin-right:5px;vertical-align:middle;animation:blink 2s infinite}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.4}}
 
-/* ── CONTENT ── */
+/* CONTENT */
 .content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:18px 16px;padding-bottom:max(env(safe-area-inset-bottom,0px),72px)}
 .view{display:none}.view.active{display:block}
 
-/* ── CARDS ── */
+/* CARDS */
 .card{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r);padding:16px;margin-bottom:10px}
 .card-label{font-size:10px;font-weight:500;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
 .card-title{font-size:15px;font-weight:500;color:var(--white);line-height:1.4}
@@ -104,64 +76,111 @@ body{display:flex;flex-direction:column;min-height:100dvh}
 .bw{background:var(--gold-soft);color:var(--gold)}
 .bd{background:var(--red-soft);color:var(--red)}
 .bg{background:var(--green-soft);color:var(--green)}
-.bi{background:var(--accent-glow);color:var(--accent)}
 .dot{width:5px;height:5px;border-radius:50%;background:currentColor;flex-shrink:0}
 .sec{font-size:10px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted2);margin:18px 0 8px}
 .sec:first-child{margin-top:0}
-
-/* ── HIGHLIGHT ── */
 .hlcard{background:linear-gradient(135deg,rgba(79,142,247,0.1) 0%,rgba(26,34,53,0.8) 100%);border:1px solid rgba(79,142,247,0.2);border-radius:var(--r);padding:16px;margin-bottom:10px}
 .hcl{font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:var(--accent);font-weight:500;margin-bottom:5px}
-.hcv{font-family:'DM Mono',monospace;font-size:13px;color:var(--white)}
-
-/* ── PROGRESS ── */
+.hcv{font-family:'DM Mono',monospace;font-size:13px}
 .pw{background:var(--bg2);border-radius:4px;height:3px;margin-top:10px;overflow:hidden}
 .pb{height:100%;background:var(--accent);border-radius:4px;transition:width .5s ease}
 .pl{font-size:11px;color:var(--muted);margin-top:5px;font-family:'DM Mono',monospace}
 
-/* ── PENDIENTES ── */
-.pi{
-  display:flex;align-items:flex-start;gap:11px;background:var(--bg3);
-  border:1px solid var(--border2);border-radius:var(--r-sm);padding:13px;
-  margin-bottom:7px;-webkit-tap-highlight-color:transparent;transition:background .15s
-}
-.pi.pinned{border-color:rgba(245,166,35,0.25);background:rgba(245,166,35,0.04)}
+/* PENDIENTES */
+.pi{display:flex;align-items:flex-start;gap:10px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r-sm);padding:13px;margin-bottom:7px;position:relative;-webkit-tap-highlight-color:transparent}
+.pi.pinned{border-color:rgba(245,166,35,0.25);background:rgba(245,166,35,0.03)}
 .pi.done{opacity:.4}
 .pi.done .pt{text-decoration:line-through}
-.cb{width:20px;height:20px;border-radius:6px;border:1.5px solid var(--muted2);flex-shrink:0;display:flex;align-items:center;justify-content:center;margin-top:1px;transition:all .15s;cursor:pointer}
+.pi.overdue{border-color:rgba(232,93,93,0.3)}
+
+/* swipe to complete */
+.pi{transition:transform .25s cubic-bezier(.4,0,.2,1),opacity .25s}
+.pi.swiping{transition:none}
+
+.cb{width:20px;height:20px;border-radius:6px;border:1.5px solid var(--muted2);flex-shrink:0;display:flex;align-items:center;justify-content:center;margin-top:2px;transition:all .15s;cursor:pointer}
 .pi.done .cb{background:var(--green);border-color:var(--green)}
 .ci{width:10px;height:10px;stroke:var(--bg);stroke-width:2.5;fill:none;display:none}
 .pi.done .ci{display:block}
-.pt{font-size:14px;color:var(--white);line-height:1.45;flex:1}
-.psub{font-size:11px;color:var(--muted);margin-top:3px;line-height:1.4}
-.dby{font-size:10px;color:var(--muted2);margin-top:4px;font-family:'DM Mono',monospace}
-.pa{color:var(--red);font-size:9px;font-weight:600;flex-shrink:0;margin-top:3px;letter-spacing:.5px}
-.pm{color:var(--gold);font-size:9px;font-weight:600;flex-shrink:0;margin-top:3px;letter-spacing:.5px}
-.pi-actions{display:flex;gap:6px;margin-top:8px}
-.pi-btn{font-size:11px;color:var(--muted);background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r-xs);padding:4px 9px;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:all .15s;font-family:'DM Sans',sans-serif}
-.pi-btn:active{background:var(--bg3)}
-.pi-btn.pin-active{color:var(--gold);border-color:rgba(245,166,35,0.3)}
-.pi-btn.del{color:var(--red)}
 
-/* ── NOTAS ── */
-.note-area{
-  background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r);
-  padding:14px;font-size:14px;color:var(--white);width:100%;min-height:90px;
-  resize:none;font-family:'DM Sans',sans-serif;line-height:1.6;outline:none;
-  transition:border-color .15s
-}
+.pi-main{flex:1;min-width:0;cursor:pointer}
+.pt{font-size:14px;color:var(--white);line-height:1.4}
+.psub{font-size:11px;color:var(--muted);margin-top:3px}
+.pi-dates{display:flex;gap:10px;margin-top:5px;flex-wrap:wrap}
+.pi-date{font-size:10px;font-family:'DM Mono',monospace;color:var(--muted2);display:flex;align-items:center;gap:3px}
+.pi-date.due{color:var(--gold)}
+.pi-date.overdue{color:var(--red)}
+.pi-right{display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex-shrink:0}
+.pri-badge{font-size:9px;font-weight:700;letter-spacing:.5px}
+.pa{color:var(--red)}.pm{color:var(--gold)}.pb2{color:var(--muted)}
+.pi-meta{display:flex;align-items:center;gap:6px;margin-top:2px}
+.pi-avcount{font-size:10px;color:var(--accent);font-family:'DM Mono',monospace}
+.pi-menu-btn{background:none;border:none;color:var(--muted2);font-size:16px;cursor:pointer;padding:0;line-height:1;-webkit-tap-highlight-color:transparent}
+.pi-menu-btn:active{color:var(--white)}
+.dby{font-size:10px;color:var(--muted2);margin-top:4px;font-family:'DM Mono',monospace}
+
+/* CONTEXT MENU */
+.ctx-menu{position:fixed;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r-sm);padding:6px;z-index:400;min-width:140px;box-shadow:0 8px 32px rgba(0,0,0,.5)}
+.ctx-item{display:flex;align-items:center;gap:8px;padding:9px 12px;border-radius:var(--r-xs);font-size:13px;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:background .12s;border:none;background:none;width:100%;text-align:left;font-family:'DM Sans',sans-serif;color:var(--white)}
+.ctx-item:active{background:var(--bg3)}
+.ctx-item.danger{color:var(--red)}
+.ctx-item.pin-on{color:var(--gold)}
+
+/* PANEL LATERAL */
+.panel-bg{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:300;display:none}
+.panel-bg.open{display:block}
+.panel{position:fixed;top:0;right:0;bottom:0;width:min(92vw,420px);background:var(--bg2);border-left:1px solid var(--border);display:flex;flex-direction:column;transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);z-index:301}
+.panel-bg.open .panel{transform:translateX(0)}
+.panel-header{padding:16px 16px 12px;border-bottom:1px solid var(--border);flex-shrink:0}
+.panel-close{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.panel-back{background:none;border:none;color:var(--muted);font-size:13px;cursor:pointer;padding:0;font-family:'DM Sans',sans-serif;display:flex;align-items:center;gap:4px}
+.panel-back:active{color:var(--white)}
+.panel-edit-btn{background:none;border:none;color:var(--accent);font-size:12px;cursor:pointer;padding:4px 8px;border-radius:var(--r-xs);border:1px solid rgba(79,142,247,.3);font-family:'DM Sans',sans-serif}
+
+/* Edición inline en panel */
+.panel-title-input{width:100%;background:var(--bg3);border:1px solid var(--accent);border-radius:var(--r-xs);padding:8px 10px;font-size:15px;font-weight:500;color:var(--white);font-family:'DM Sans',sans-serif;outline:none;margin-bottom:6px;display:none}
+.panel-sub-input{width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r-xs);padding:7px 10px;font-size:12px;color:var(--white);font-family:'DM Sans',sans-serif;outline:none;display:none}
+.panel-date-row{display:flex;gap:8px;margin-top:8px}
+.panel-date-input{flex:1;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r-xs);padding:7px 10px;font-size:11px;color:var(--white);font-family:'DM Mono',monospace;outline:none}
+.panel-date-input:focus{border-color:var(--accent)}
+.panel-date-label{font-size:9px;color:var(--muted2);letter-spacing:.8px;text-transform:uppercase;margin-bottom:3px}
+.panel-save-btn{margin-top:8px;padding:8px 14px;background:var(--accent);color:var(--white);border:none;border-radius:var(--r-xs);font-size:12px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;display:none}
+
+.panel-title-view{font-size:15px;font-weight:500;color:var(--white);line-height:1.4;margin-bottom:4px}
+.panel-sub-view{font-size:12px;color:var(--muted);line-height:1.5}
+.panel-dates-view{display:flex;gap:10px;margin-top:8px;flex-wrap:wrap}
+.panel-pri{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:600;margin-top:6px}
+
+.panel-body{flex:1;overflow-y:auto;padding:14px 16px 24px}
+
+/* AVANCES en panel */
+.av-type-tabs{display:flex;gap:6px;margin-bottom:10px}
+.av-tab{flex:1;padding:8px 4px;border-radius:var(--r-xs);border:1px solid var(--border2);background:var(--bg3);color:var(--muted);font-size:11px;font-weight:500;cursor:pointer;text-align:center;font-family:'DM Sans',sans-serif;transition:all .15s}
+.av-tab.active{background:var(--accent-glow);color:var(--accent);border-color:rgba(79,142,247,.3)}
+.av-forms>div{display:none}.av-forms>div.show{display:block}
+.av-input{width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r-xs);padding:9px 11px;font-size:13px;color:var(--white);font-family:'DM Sans',sans-serif;outline:none;margin-bottom:7px}
+.av-input:focus{border-color:var(--accent)}
+.av-input::placeholder{color:var(--muted2)}
+.av-save{width:100%;padding:10px;background:var(--accent);color:var(--white);border:none;border-radius:var(--r-xs);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer}
+.av-save:active{opacity:.85}
+
+.av-list-title{font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted2);margin:14px 0 8px}
+.av-item{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r-sm);padding:11px 12px;margin-bottom:7px;display:flex;gap:9px;align-items:flex-start}
+.av-icon{font-size:16px;flex-shrink:0;margin-top:1px}
+.av-body{flex:1;min-width:0}
+.av-text{font-size:13px;color:var(--white);line-height:1.4;word-break:break-word}
+.av-link{font-size:13px;color:var(--accent);text-decoration:none;word-break:break-all}
+.av-link:active{opacity:.75}
+.av-meta{font-size:10px;color:var(--muted2);margin-top:3px;font-family:'DM Mono',monospace}
+.av-del{background:none;border:none;color:var(--muted2);font-size:13px;cursor:pointer;padding:0;flex-shrink:0}
+.av-del:active{color:var(--red)}
+
+/* NOTAS */
+.note-area{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r);padding:14px;font-size:14px;color:var(--white);width:100%;min-height:90px;resize:none;font-family:'DM Sans',sans-serif;line-height:1.6;outline:none;transition:border-color .15s}
 .note-area:focus{border-color:var(--accent)}
 .note-area::placeholder{color:var(--muted2)}
-.save-btn{
-  width:100%;padding:13px;background:var(--accent);color:var(--white);border:none;
-  border-radius:var(--r-sm);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;
-  cursor:pointer;margin-top:8px;-webkit-tap-highlight-color:transparent;transition:opacity .15s
-}
+.save-btn{width:100%;padding:13px;background:var(--accent);color:var(--white);border:none;border-radius:var(--r-sm);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;margin-top:8px;-webkit-tap-highlight-color:transparent}
 .save-btn:active{opacity:.85}
-.snote{
-  background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r-sm);
-  padding:13px;margin-bottom:7px;transition:border-color .15s
-}
+.snote{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r-sm);padding:13px;margin-bottom:7px}
 .snote.pinned{border-color:rgba(245,166,35,0.3);background:rgba(245,166,35,0.04)}
 .nts{font-size:10px;color:var(--muted2);font-family:'DM Mono',monospace;margin-bottom:6px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
 .nauthor{font-size:10px;font-weight:600;padding:2px 7px;border-radius:10px}
@@ -176,84 +195,40 @@ body{display:flex;flex-direction:column;min-height:100dvh}
 .n-btn.pin-active{color:var(--gold);border-color:rgba(245,166,35,.3)}
 .n-btn.del{color:var(--red)}
 .n-btn.save-edit{color:var(--accent);border-color:rgba(79,142,247,.3)}
-/* ── SWIPE ACTIONS ── */
-.pi-wrap{position:relative;overflow:hidden;border-radius:var(--r-sm);margin-bottom:7px}
-.pi-swipe{display:flex;align-items:flex-start;gap:11px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r-sm);padding:13px;transition:transform .25s cubic-bezier(.4,0,.2,1);cursor:grab;user-select:none;position:relative;z-index:1}
-.pi-swipe.pinned{border-color:rgba(245,166,35,0.25);background:rgba(245,166,35,0.04)}
-.pi-swipe.done{opacity:.4}
-.pi-swipe.done .pt{text-decoration:line-through}
-.swipe-actions{position:absolute;right:0;top:0;bottom:0;display:flex;align-items:stretch;z-index:0;border-radius:0 var(--r-sm) var(--r-sm) 0;overflow:hidden}
-.sw-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;width:60px;gap:4px;border:none;cursor:pointer;font-size:18px;transition:opacity .15s}
-.sw-btn span{font-size:9px;font-weight:600;letter-spacing:.3px;font-family:'DM Sans',sans-serif}
-.sw-pin{background:#2d3d1a;color:#3ecf8e}
-.sw-edit{background:#1a2d4a;color:#4f8ef7}
-.sw-del{background:#3d1414;color:#e85d5d}
-.sw-btn:active{opacity:.75}
 
-/* ── AVANCES DRAWER ── */
-.drawer-bg{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:300;display:none;align-items:flex-end}
-.drawer-bg.open{display:flex}
-.drawer{background:var(--bg2);border-radius:20px 20px 0 0;width:100%;max-height:88dvh;display:flex;flex-direction:column;border-top:1px solid var(--border)}
-.drawer-handle{width:36px;height:4px;background:var(--muted2);border-radius:2px;margin:12px auto 0}
-.drawer-header{display:flex;align-items:center;justify-content:space-between;padding:14px 18px 10px}
-.drawer-title{font-size:15px;font-weight:500;color:var(--white)}
-.drawer-close{background:none;border:none;color:var(--muted);font-size:20px;cursor:pointer;padding:0;line-height:1}
-.drawer-body{flex:1;overflow-y:auto;padding:0 16px 24px}
-.avance-item{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r-sm);padding:12px 14px;margin-bottom:8px;display:flex;gap:10px;align-items:flex-start}
-.avance-icon{font-size:20px;flex-shrink:0;margin-top:1px}
-.avance-body{flex:1;min-width:0}
-.avance-text{font-size:13px;color:var(--white);line-height:1.45;word-break:break-word}
-.avance-link{font-size:13px;color:var(--accent);text-decoration:none;word-break:break-all}
-.avance-link:hover{text-decoration:underline}
-.avance-meta{font-size:10px;color:var(--muted2);margin-top:4px;font-family:'DM Mono',monospace}
-.avance-del{background:none;border:none;color:var(--muted2);font-size:14px;cursor:pointer;padding:0;flex-shrink:0;margin-top:1px}
-.avance-del:active{color:var(--red)}
-.add-avance-tabs{display:flex;gap:6px;margin-bottom:12px;padding-top:4px}
-.av-tab{flex:1;padding:9px 6px;border-radius:var(--r-xs);border:1px solid var(--border2);background:var(--bg3);color:var(--muted);font-size:12px;font-weight:500;cursor:pointer;text-align:center;font-family:'DM Sans',sans-serif;transition:all .15s}
-.av-tab.active{background:var(--accent-glow);color:var(--accent);border-color:rgba(79,142,247,.3)}
-.av-input{width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r-xs);padding:10px 12px;font-size:13px;color:var(--white);font-family:'DM Sans',sans-serif;outline:none;margin-bottom:8px}
-.av-input:focus{border-color:var(--accent)}
-.av-input::placeholder{color:var(--muted2)}
-.av-save{width:100%;padding:11px;background:var(--accent);color:var(--white);border:none;border-radius:var(--r-xs);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer}
-.av-save:active{opacity:.85}
-.av-forms > div{display:none}.av-forms > div.show{display:block}
-
-.pin-icon{font-size:12px}
-
-/* ── CONTACTOS ── */
+/* CONTACTOS */
 .ccard{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r);padding:14px 16px;margin-bottom:10px}
-.cname{font-size:15px;font-weight:500;color:var(--white)}
+.cname{font-size:15px;font-weight:500}
 .crole{font-size:12px;color:var(--muted);margin-top:2px}
 .cacts{display:flex;gap:8px;margin-top:12px}
-.cbtn{flex:1;padding:9px;border-radius:var(--r-xs);border:1px solid var(--border2);background:var(--bg2);color:var(--accent);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;cursor:pointer;text-align:center;-webkit-tap-highlight-color:transparent}
-.cbtn:active{opacity:.75}
+.cbtn{flex:1;padding:9px;border-radius:var(--r-xs);border:1px solid var(--border2);background:var(--bg2);color:var(--accent);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;cursor:pointer;text-align:center}
 
-/* ── MODAL ── */
-.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:200;display:none;align-items:flex-end;justify-content:center}
+/* MODAL */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:500;display:none;align-items:flex-end;justify-content:center}
 .modal-bg.open{display:flex}
 .modal{background:var(--bg2);border-radius:var(--r) var(--r) 0 0;padding:20px 18px 32px;width:100%;max-width:480px;border-top:1px solid var(--border)}
-.modal h3{font-size:15px;font-weight:500;margin-bottom:14px;color:var(--white)}
-.modal input,.modal textarea{width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r-xs);padding:11px 13px;font-size:14px;color:var(--white);font-family:'DM Sans',sans-serif;outline:none;margin-bottom:10px}
+.modal h3{font-size:15px;font-weight:500;margin-bottom:14px}
+.modal input,.modal textarea,.modal select{width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r-xs);padding:11px 13px;font-size:14px;color:var(--white);font-family:'DM Sans',sans-serif;outline:none;margin-bottom:10px}
 .modal input:focus,.modal textarea:focus{border-color:var(--accent)}
 .modal-btns{display:flex;gap:8px;margin-top:4px}
 .m-btn{flex:1;padding:12px;border-radius:var(--r-xs);border:none;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer}
 .m-btn.cancel{background:var(--bg3);color:var(--muted)}
 .m-btn.confirm{background:var(--accent);color:var(--white)}
+.modal-date-row{display:flex;gap:8px}
+.modal-date-row>div{flex:1}
+.modal-date-row label{font-size:10px;color:var(--muted2);letter-spacing:.8px;text-transform:uppercase;display:block;margin-bottom:4px}
 
-/* ── EMPTY ── */
 .empty{text-align:center;padding:36px 20px;color:var(--muted2);font-size:13px;line-height:1.7}
 </style>
 </head>
 <body>
 
-<!-- LOADING -->
 <div id="loading">
   <div class="load-logo">DyC</div>
   <div class="load-sub">Dirección y Control</div>
   <div class="spinner"></div>
 </div>
 
-<!-- LOGIN -->
 <div id="login">
   <div class="login-mark">DyC</div>
   <div class="login-tagline">Dirección y Control</div>
@@ -267,10 +242,9 @@ body{display:flex;flex-direction:column;min-height:100dvh}
     Entrar con Google
   </button>
   <div class="login-note">Sync en tiempo real entre Martín y Andrea</div>
-  <div class="login-restricted">Solo cuentas autorizadas pueden acceder</div>
+  <div class="login-restricted">Solo cuentas autorizadas</div>
 </div>
 
-<!-- APP -->
 <div id="app" style="display:none;flex-direction:column;flex:1">
   <header class="app-header">
     <div class="header-inner">
@@ -288,12 +262,11 @@ body{display:flex;flex-direction:column;min-height:100dvh}
     </div>
   </header>
   <div class="sync-bar">
-    <span><span class="s-dot live" id="sdot"></span><span id="slabel">En vivo</span></span>
+    <span><span class="s-dot"></span>En vivo</span>
     <span style="font-size:10px;color:var(--muted2)" id="last-sync"></span>
   </div>
 
   <main class="content">
-
     <!-- RESUMEN -->
     <div class="view active" id="view-resumen">
       <div class="hlcard"><div class="hcl">Empresa</div><div class="hcv">Dirección y Control (DyC)</div></div>
@@ -319,7 +292,7 @@ body{display:flex;flex-direction:column;min-height:100dvh}
 
     <!-- PENDIENTES -->
     <div class="view" id="view-pendientes">
-      <div id="plist"><div class="empty">Cargando pendientes...</div></div>
+      <div id="plist"></div>
       <button class="save-btn" style="margin-top:4px" onclick="openAddPending()">+ Agregar pendiente</button>
     </div>
 
@@ -328,7 +301,7 @@ body{display:flex;flex-direction:column;min-height:100dvh}
       <textarea class="note-area" id="ni" placeholder="Escribe una nota..."></textarea>
       <button class="save-btn" onclick="saveNote()">Guardar nota</button>
       <div class="sec" style="margin-top:20px">Notas</div>
-      <div id="nlist"><div class="empty">Sin notas aún</div></div>
+      <div id="nlist"></div>
     </div>
 
     <!-- CONTACTOS -->
@@ -364,33 +337,57 @@ body{display:flex;flex-direction:column;min-height:100dvh}
         </div>
       </div>
     </div>
-
   </main>
 </div>
 
-
-<!-- AVANCES DRAWER -->
-<div class="drawer-bg" id="drawer-avances">
-  <div class="drawer">
-    <div class="drawer-handle"></div>
-    <div class="drawer-header">
-      <div>
-        <div class="drawer-title" id="drawer-pending-title">Avances</div>
-        <div style="font-size:11px;color:var(--muted);margin-top:2px" id="drawer-pending-sub"></div>
+<!-- PANEL LATERAL PENDIENTE -->
+<div class="panel-bg" id="panel-bg" onclick="closePanelIfBg(event)">
+  <div class="panel" id="panel">
+    <div class="panel-header">
+      <div class="panel-close">
+        <button class="panel-back" onclick="closePanel()">← Volver</button>
+        <button class="panel-edit-btn" id="panel-edit-btn" onclick="togglePanelEdit()">✏️ Editar</button>
       </div>
-      <button class="drawer-close" onclick="closeDrawer()">✕</button>
+      <!-- Vista normal -->
+      <div id="panel-view-mode">
+        <div class="panel-title-view" id="panel-title-view"></div>
+        <div class="panel-sub-view" id="panel-sub-view"></div>
+        <div class="panel-dates-view" id="panel-dates-view"></div>
+        <div class="panel-pri" id="panel-pri-view"></div>
+      </div>
+      <!-- Modo edición -->
+      <div id="panel-edit-mode" style="display:none">
+        <input class="panel-title-input" id="panel-title-input" placeholder="Título..." style="display:block;margin-bottom:6px">
+        <input class="panel-sub-input" id="panel-sub-input" placeholder="Detalle..." style="display:block">
+        <div class="panel-date-row" style="margin-top:8px">
+          <div>
+            <div class="panel-date-label">Creado</div>
+            <input class="panel-date-input" id="panel-created-input" type="date">
+          </div>
+          <div>
+            <div class="panel-date-label">Entrega</div>
+            <input class="panel-date-input" id="panel-due-input" type="date">
+          </div>
+        </div>
+        <select id="panel-pri-input" style="width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r-xs);padding:8px 10px;font-size:12px;color:var(--white);font-family:'DM Sans',sans-serif;outline:none;margin-top:8px;-webkit-appearance:none">
+          <option value="ALTA">🔴 Alta</option>
+          <option value="MEDIA">🟡 Media</option>
+          <option value="BAJA">⚪ Baja</option>
+        </select>
+        <button class="panel-save-btn" onclick="savePanelEdit()" style="display:block;margin-top:8px">Guardar cambios</button>
+      </div>
     </div>
-    <div class="drawer-body">
-      <!-- Tabs agregar -->
-      <div class="add-avance-tabs">
+    <div class="panel-body">
+      <div class="sec" style="margin-top:0">Agregar avance</div>
+      <div class="av-type-tabs">
         <button class="av-tab active" onclick="switchAvTab('nota')">📝 Nota</button>
         <button class="av-tab" onclick="switchAvTab('link')">🔗 Link</button>
         <button class="av-tab" onclick="switchAvTab('doc')">📄 Doc</button>
       </div>
       <div class="av-forms">
         <div id="avf-nota" class="show">
-          <textarea class="av-input" id="av-nota-txt" placeholder="Escribe un avance o comentario..." rows="3" style="resize:none"></textarea>
-          <button class="av-save" onclick="addAvance('nota')">Agregar nota</button>
+          <textarea class="av-input" id="av-nota-txt" placeholder="Escribe un avance..." rows="3" style="resize:none"></textarea>
+          <button class="av-save" onclick="addAvance('nota')">Agregar</button>
         </div>
         <div id="avf-link">
           <input class="av-input" id="av-link-url" placeholder="https://..." type="url">
@@ -399,15 +396,20 @@ body{display:flex;flex-direction:column;min-height:100dvh}
         </div>
         <div id="avf-doc">
           <input class="av-input" id="av-doc-name" placeholder="Nombre del documento...">
-          <input class="av-input" id="av-doc-url" placeholder="URL o ruta del documento..." type="url">
-          <button class="av-save" onclick="addAvance('doc')">Agregar documento</button>
+          <input class="av-input" id="av-doc-url" placeholder="URL del documento..." type="url">
+          <button class="av-save" onclick="addAvance('doc')">Agregar doc</button>
         </div>
       </div>
-      <!-- Lista avances -->
-      <div style="font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted2);margin:14px 0 8px">Historial de avances</div>
-      <div id="avances-list"><div class="empty" style="padding:20px 0">Sin avances aún</div></div>
+      <div class="av-list-title">Historial</div>
+      <div id="av-list"><div class="empty" style="padding:16px 0">Sin avances aún</div></div>
     </div>
   </div>
+</div>
+
+<!-- CONTEXT MENU -->
+<div id="ctx-menu" class="ctx-menu" style="display:none">
+  <button class="ctx-item pin-on" id="ctx-pin" onclick="ctxPin()">📌 Fijar</button>
+  <button class="ctx-item danger" onclick="ctxDelete()">🗑 Borrar</button>
 </div>
 
 <!-- MODAL AGREGAR PENDIENTE -->
@@ -415,12 +417,21 @@ body{display:flex;flex-direction:column;min-height:100dvh}
   <div class="modal">
     <h3>Nuevo pendiente</h3>
     <input type="text" id="m-text" placeholder="Tarea..." maxlength="200">
-    <input type="text" id="m-sub" placeholder="Detalle (opcional)..." maxlength="200">
-    <select id="m-pri" style="width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r-xs);padding:11px 13px;font-size:14px;color:var(--white);font-family:'DM Sans',sans-serif;outline:none;margin-bottom:10px;-webkit-appearance:none">
-      <option value="ALTA">🔴 Prioridad alta</option>
-      <option value="MEDIA" selected>🟡 Prioridad media</option>
-      <option value="BAJA">⚪ Prioridad baja</option>
-    </select>
+    <input type="text" id="m-sub" placeholder="Detalle (opcional)...">
+    <div class="modal-date-row">
+      <div>
+        <label>Fecha de entrega</label>
+        <input type="date" id="m-due">
+      </div>
+      <div>
+        <label>Prioridad</label>
+        <select id="m-pri" style="-webkit-appearance:none">
+          <option value="ALTA">🔴 Alta</option>
+          <option value="MEDIA" selected>🟡 Media</option>
+          <option value="BAJA">⚪ Baja</option>
+        </select>
+      </div>
+    </div>
     <div class="modal-btns">
       <button class="m-btn cancel" onclick="closeModal('modal-pending')">Cancelar</button>
       <button class="m-btn confirm" onclick="addPending()">Agregar</button>
@@ -428,10 +439,10 @@ body{display:flex;flex-direction:column;min-height:100dvh}
   </div>
 </div>
 
-<!-- MODAL CONFIRMAR BORRAR -->
+<!-- MODAL DELETE -->
 <div class="modal-bg" id="modal-delete">
   <div class="modal">
-    <h3 id="del-title">¿Borrar este elemento?</h3>
+    <h3 id="del-title">¿Borrar?</h3>
     <p style="font-size:13px;color:var(--muted);margin-bottom:16px">Esta acción no se puede deshacer.</p>
     <div class="modal-btns">
       <button class="m-btn cancel" onclick="closeModal('modal-delete')">Cancelar</button>
@@ -440,18 +451,15 @@ body{display:flex;flex-direction:column;min-height:100dvh}
   </div>
 </div>
 
-<!-- MODAL USER MENU -->
+<!-- MODAL USER -->
 <div class="modal-bg" id="modal-user">
   <div class="modal">
     <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px">
       <img id="menu-avatar" src="" style="width:44px;height:44px;border-radius:50%;object-fit:cover" alt="">
-      <div>
-        <div style="font-size:15px;font-weight:500" id="menu-name"></div>
-        <div style="font-size:12px;color:var(--muted)" id="menu-email"></div>
-      </div>
+      <div><div style="font-size:15px;font-weight:500" id="menu-name"></div><div style="font-size:12px;color:var(--muted)" id="menu-email"></div></div>
     </div>
     <button class="m-btn cancel" style="width:100%;margin-bottom:8px" onclick="closeModal('modal-user')">Cerrar</button>
-    <button class="m-btn confirm" style="width:100%;background:var(--red-soft);color:var(--red);border:1px solid rgba(232,93,93,.2)" onclick="signOut()">Cerrar sesión</button>
+    <button class="m-btn confirm" style="width:100%;background:var(--red-soft);color:var(--red);border:1px solid rgba(232,93,93,.2)" onclick="doSignOut()">Cerrar sesión</button>
   </div>
 </div>
 
@@ -459,451 +467,476 @@ body{display:flex;flex-direction:column;min-height:100dvh}
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut as fbSignOut }
   from "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js";
-import { getFirestore, collection, doc, addDoc, setDoc, updateDoc, deleteDoc,
-  onSnapshot, query, orderBy, serverTimestamp }
+import { getFirestore, collection, doc, addDoc, updateDoc, deleteDoc,
+  onSnapshot, query, orderBy, serverTimestamp, getDocs }
   from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyDctLc-zbyqhwwmkzGuJHMJu3zHRKxmUsg",
-  authDomain: "dyc-app-mx.firebaseapp.com",
-  projectId: "dyc-app-mx",
-  storageBucket: "dyc-app-mx.firebasestorage.app",
-  messagingSenderId: "1001634323927",
-  appId: "1:1001634323927:web:41da0e56a508511f2fff92"
+const FC = {
+  apiKey:"AIzaSyDctLc-zbyqhwwmkzGuJHMJu3zHRKxmUsg",
+  authDomain:"dyc-app-mx.firebaseapp.com",
+  projectId:"dyc-app-mx",
+  storageBucket:"dyc-app-mx.firebasestorage.app",
+  messagingSenderId:"1001634323927",
+  appId:"1:1001634323927:web:41da0e56a508511f2fff92"
 };
-
-const app = initializeApp(firebaseConfig);
+const app = initializeApp(FC);
 const auth = getAuth(app);
 const db = getFirestore(app);
-
-// Emails autorizados
-const ALLOWED = ['anned7015@gmail.com', 'admondyc2017@gmail.com'];
+const ALLOWED = ['anned7015@gmail.com','admondyc2017@gmail.com'];
 
 let currentUser = null;
 let deleteTarget = null;
+let activePendingId = null;
+let activePendingData = null;
+let avUnsub = null;
 let unsubs = [];
+let ctxTarget = null;
+let panelEditMode = false;
+
+const SEED = [
+  {text:'Investigar nueva razón social de Honeywell International',sub:'Bloquea reactivación de relación comercial',pri:'ALTA'},
+  {text:'Revisar órdenes de compra canceladas y refacturadas',sub:'Revisar correos de transición al nuevo fiscal',pri:'ALTA'},
+  {text:'Auditar facturas pendientes de cobro',sub:'Identificar sin facturar y refacturadas',pri:'ALTA'},
+  {text:'Regularizar facturas antes de contactar a Jaime Barraza',sub:'Paso previo obligatorio',pri:'ALTA'},
+  {text:'Definir procedimiento para reportes',sub:'Pendiente de checar',pri:'MEDIA'},
+  {text:'Contactar a Jaime Barraza para reactivar labores',sub:'Después de resolver facturas',pri:'MEDIA'},
+];
 
 // ── AUTH ──
-onAuthStateChanged(auth, user => {
-  document.getElementById('loading').style.display = 'none';
-  if (user && ALLOWED.includes(user.email)) {
-    currentUser = user;
-    showApp(user);
-    startListeners();
-  } else if (user) {
-    fbSignOut(auth);
-    showLogin();
-    alert('Acceso restringido. Contacta a Andrea para ser agregado.');
-  } else {
-    showLogin();
-  }
+onAuthStateChanged(auth, u => {
+  document.getElementById('loading').style.display='none';
+  if (u && ALLOWED.includes(u.email)) {
+    currentUser=u; showApp(u); startListeners();
+  } else if(u) { fbSignOut(auth); showLogin(); }
+  else { showLogin(); }
 });
 
 window.signInGoogle = async () => {
-  const provider = new GoogleAuthProvider();
-  try { await signInWithPopup(auth, provider); } catch(e) { console.error(e); }
+  try { await signInWithPopup(auth, new GoogleAuthProvider()); } catch(e){}
+};
+window.doSignOut = async () => {
+  unsubs.forEach(u=>u()); await fbSignOut(auth); closeModal('modal-user');
 };
 
-window.signOut = async () => {
-  unsubs.forEach(u => u());
-  await fbSignOut(auth);
-  closeModal('modal-user');
-};
-
-function showLogin() {
-  document.getElementById('login').style.display = 'flex';
-  document.getElementById('app').style.display = 'none';
+function showLogin(){
+  document.getElementById('login').style.display='flex';
+  document.getElementById('app').style.display='none';
+}
+function showApp(u){
+  document.getElementById('login').style.display='none';
+  document.getElementById('app').style.display='flex';
+  document.getElementById('uavatar').src=u.photoURL||'';
+  document.getElementById('uname').textContent=u.displayName?.split(' ')[0]||'';
+  document.getElementById('menu-avatar').src=u.photoURL||'';
+  document.getElementById('menu-name').textContent=u.displayName||'';
+  document.getElementById('menu-email').textContent=u.email||'';
 }
 
-function showApp(user) {
-  document.getElementById('login').style.display = 'none';
-  const appEl = document.getElementById('app');
-  appEl.style.display = 'flex';
-  document.getElementById('uavatar').src = user.photoURL || '';
-  document.getElementById('uname').textContent = user.displayName?.split(' ')[0] || 'Usuario';
-  document.getElementById('menu-avatar').src = user.photoURL || '';
-  document.getElementById('menu-name').textContent = user.displayName || '';
-  document.getElementById('menu-email').textContent = user.email || '';
-}
-
-// ── SEED INICIAL ──
-const SEED = [
-  { text:'Investigar nueva razon social / denominacion de Honeywell International', sub:'Bloquea reactivacion de relacion comercial', pri:'ALTA' },
-  { text:'Revisar ordenes de compra canceladas y refacturadas (comprador Honeywell)', sub:'Revisar correos de transicion al nuevo fiscal', pri:'ALTA' },
-  { text:'Auditar facturas pendientes de cobro', sub:'Identificar cuales estan sin facturar y cuales refacturadas', pri:'ALTA' },
-  { text:'Regularizar facturas antes de contactar a Jaime Barraza', sub:'Paso previo obligatorio', pri:'ALTA' },
-  { text:'Definir procedimiento para reportes', sub:'Pendiente de checar', pri:'MEDIA' },
-  { text:'Contactar a Jaime Barraza para reactivar labores', sub:'Despues de resolver facturas', pri:'MEDIA' },
-];
-
-async function seedIfEmpty() {
-  const { getDocs } = await import("https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js");
+// ── SEED ──
+async function seedIfEmpty(){
   const snap = await getDocs(collection(db,'pendientes'));
-  if (snap.empty) {
-    for (const p of SEED) {
-      await addDoc(collection(db,'pendientes'), {
-        ...p, done:false, pinned:false, doneBy:null, doneAt:null,
-        createdBy:'sistema', createdAt:serverTimestamp()
+  if(snap.empty){
+    const today = new Date().toISOString().split('T')[0];
+    for(const p of SEED){
+      await addDoc(collection(db,'pendientes'),{
+        ...p,done:false,pinned:false,doneBy:null,doneAt:null,
+        avanceCount:0,createdDate:today,dueDate:null,
+        createdBy:'sistema',createdAt:serverTimestamp()
       });
     }
   }
 }
 
-// ── FIRESTORE LISTENERS ──
-function startListeners() {
+// ── LISTENERS ──
+function startListeners(){
   seedIfEmpty();
-  // Pendientes
-  const pq = query(collection(db,'pendientes'), orderBy('createdAt','asc'));
-  const u1 = onSnapshot(pq, snap => {
-    renderPendientes(snap.docs.map(d => ({id:d.id,...d.data()})));
+  const pq=query(collection(db,'pendientes'),orderBy('createdAt','asc'));
+  const u1=onSnapshot(pq,snap=>{
+    renderPendientes(snap.docs.map(d=>({id:d.id,...d.data()})));
     updateSync();
   });
-
-  // Notas
-  const nq = query(collection(db,'notas'), orderBy('pinned','desc'), orderBy('createdAt','desc'));
-  const u2 = onSnapshot(nq, snap => {
-    renderNotas(snap.docs.map(d => ({id:d.id,...d.data()})));
+  const nq=query(collection(db,'notas'),orderBy('pinned','desc'),orderBy('createdAt','desc'));
+  const u2=onSnapshot(nq,snap=>{
+    renderNotas(snap.docs.map(d=>({id:d.id,...d.data()})));
     updateSync();
   });
-
-  unsubs = [u1, u2];
+  unsubs=[u1,u2];
 }
-
-function updateSync() {
-  const now = new Date();
-  document.getElementById('last-sync').textContent =
-    now.toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit'});
+function updateSync(){
+  document.getElementById('last-sync').textContent=
+    new Date().toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit'});
 }
 
 // ── TABS ──
-const TABS = ['resumen','pendientes','notas','contactos'];
-window.switchTab = id => {
-  document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', TABS[i]===id));
-  document.querySelectorAll('.view').forEach(v => v.classList.toggle('active', v.id==='view-'+id));
+const TABS=['resumen','pendientes','notas','contactos'];
+window.switchTab=id=>{
+  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',TABS[i]===id));
+  document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id==='view-'+id));
 };
 
-// ── PENDIENTES ──
-window.openAddPending = () => {
-  document.getElementById('m-text').value = '';
-  document.getElementById('m-sub').value = '';
-  document.getElementById('modal-pending').classList.add('open');
-  setTimeout(() => document.getElementById('m-text').focus(), 100);
-};
-
-window.addPending = async () => {
-  const text = document.getElementById('m-text').value.trim();
-  if (!text) return;
-  await addDoc(collection(db,'pendientes'), {
-    text, sub: document.getElementById('m-sub').value.trim(),
-    pri: document.getElementById('m-pri').value,
-    done: false, pinned: false,
-    doneBy: null, doneAt: null,
-    createdBy: currentUser.email,
-    createdAt: serverTimestamp()
-  });
-  closeModal('modal-pending');
-};
-
-window.toggleDone = async (id, done) => {
-  await updateDoc(doc(db,'pendientes',id), {
-    done: !done,
-    doneBy: !done ? currentUser.displayName?.split(' ')[0] : null,
-    doneAt: !done ? new Date().toLocaleString('es-MX',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'}) : null
-  });
-};
-
-window.togglePinP = async (id, pinned) => {
-  await updateDoc(doc(db,'pendientes',id), { pinned: !pinned });
-};
-
-window.deletePending = (id) => {
-  deleteTarget = { type:'pending', id };
-  document.getElementById('del-title').textContent = '¿Borrar este pendiente?';
-  document.getElementById('modal-delete').classList.add('open');
-};
-
-function renderPendientes(items) {
-  const pinned = items.filter(i => i.pinned && !i.done);
-  const alta = items.filter(i => !i.pinned && !i.done && i.pri==='ALTA');
-  const media = items.filter(i => !i.pinned && !i.done && i.pri!=='ALTA');
-  const done = items.filter(i => i.done);
-  let h = '';
-  if (pinned.length) { h += `<div class="sec" style="margin-top:0">📌 Fijados</div>`; pinned.forEach(i => h += pHTML(i)); }
-  if (alta.length) { h += `<div class="sec">Prioridad alta</div>`; alta.forEach(i => h += pHTML(i)); }
-  if (media.length) { h += `<div class="sec">Media / baja</div>`; media.forEach(i => h += pHTML(i)); }
-  if (done.length) { h += `<div class="sec">Completados (${done.length})</div>`; done.forEach(i => h += pHTML(i)); }
-  if (!h) h = '<div class="empty">Sin pendientes — todo listo 🎉</div>';
-  document.getElementById('plist').innerHTML = h;
+// ── PENDIENTES RENDER ──
+function renderPendientes(items){
+  const pinned=items.filter(i=>i.pinned&&!i.done);
+  const alta=items.filter(i=>!i.pinned&&!i.done&&i.pri==='ALTA');
+  const other=items.filter(i=>!i.pinned&&!i.done&&i.pri!=='ALTA');
+  const done=items.filter(i=>i.done);
+  let h='';
+  if(pinned.length){h+='<div class="sec" style="margin-top:0">📌 Fijados</div>';pinned.forEach(i=>h+=pHTML(i));}
+  if(alta.length){h+='<div class="sec">Prioridad alta</div>';alta.forEach(i=>h+=pHTML(i));}
+  if(other.length){h+='<div class="sec">Media / baja</div>';other.forEach(i=>h+=pHTML(i));}
+  if(done.length){h+=`<div class="sec">Completados (${done.length})</div>`;done.forEach(i=>h+=pHTML(i));}
+  if(!h)h='<div class="empty">Sin pendientes 🎉</div>';
+  document.getElementById('plist').innerHTML=h;
   updateProgress(items);
 }
 
-function pHTML(i) {
-  const priClass = i.pri==='ALTA' ? 'pa' : 'pm';
-  const priLabel = i.pri || 'MEDIA';
-  const doneBy = i.done && i.doneBy ? `<div class="dby">✓ ${i.doneBy} · ${i.doneAt||''}</div>` : '';
-  return `<div class="pi-wrap" id="wrap-${i.id}">
-    <div class="swipe-actions">
-      <button class="sw-btn sw-pin" onclick="togglePinP('${i.id}',${i.pinned});resetSwipe('${i.id}')">
-        ${i.pinned ? '📌' : '📌'}<span>${i.pinned?'Quitar':'Fijar'}</span>
-      </button>
-      <button class="sw-btn sw-edit" onclick="openAvances('${i.id}','${(i.text||'').replace(/'/g,"\'")}','${i.sub||''}');resetSwipe('${i.id}')">
-        📋<span>Avance</span>
-      </button>
-      <button class="sw-btn sw-del" onclick="deletePending('${i.id}');resetSwipe('${i.id}')">
-        🗑<span>Borrar</span>
-      </button>
+function fmt(dateStr){
+  if(!dateStr) return null;
+  const d=new Date(dateStr+'T12:00:00');
+  return d.toLocaleDateString('es-MX',{day:'2-digit',month:'short',year:'numeric'});
+}
+
+function isOverdue(dueDate){
+  if(!dueDate) return false;
+  return new Date(dueDate+'T23:59:59') < new Date();
+}
+
+function pHTML(i){
+  const priClass=i.pri==='ALTA'?'pa':i.pri==='MEDIA'?'pm':'pb2';
+  const overdue=!i.done&&isOverdue(i.dueDate);
+  const createdFmt=fmt(i.createdDate)||'—';
+  const dueFmt=i.dueDate?fmt(i.dueDate):null;
+  const dueClass=overdue?'overdue':'due';
+  const doneBy=i.done&&i.doneBy?`<div class="dby">✓ ${i.doneBy} · ${i.doneAt||''}</div>`:'';
+  const avCount=i.avanceCount?`<span class="pi-avcount">📋 ${i.avanceCount}</span>`:'';
+  return `<div class="pi${i.pinned?' pinned':''}${i.done?' done':''}${overdue?' overdue':''}"
+    id="pi-${i.id}"
+    ontouchstart="swStart(event,'${i.id}')"
+    ontouchmove="swMove(event,'${i.id}')"
+    ontouchend="swEnd(event,'${i.id}')">
+    <div class="cb" onclick="event.stopPropagation();toggleDone('${i.id}',${!!i.done})">
+      <svg class="ci" viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg>
     </div>
-    <div class="pi-swipe${i.pinned?' pinned':''}${i.done?' done':''}" id="pis-${i.id}"
-      ontouchstart="swipeStart(event,'${i.id}')"
-      ontouchmove="swipeMove(event,'${i.id}')"
-      ontouchend="swipeEnd(event,'${i.id}')">
-      <div class="cb" onclick="toggleDone('${i.id}',${i.done})">
-        <svg class="ci" viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg>
+    <div class="pi-main" onclick="openPanel('${i.id}')">
+      <div class="pt">${i.text}</div>
+      ${i.sub?`<div class="psub">${i.sub}</div>`:''}
+      <div class="pi-dates">
+        <span class="pi-date">📅 ${createdFmt}</span>
+        ${dueFmt?`<span class="pi-date ${dueClass}">🗓 ${dueFmt}${overdue?' · vencido':''}</span>`:''}
       </div>
-      <div style="flex:1">
-        <div class="pt">${i.text}</div>
-        ${i.sub ? `<div class="psub">${i.sub}</div>` : ''}
-        ${doneBy}
-        ${i.avanceCount ? `<div style="font-size:10px;color:var(--accent);margin-top:4px">📋 ${i.avanceCount} avance${i.avanceCount>1?'s':''}</div>` : ''}
+      ${doneBy}
+    </div>
+    <div class="pi-right">
+      <div class="${priClass}" style="font-size:9px;font-weight:700;letter-spacing:.5px">${i.pri||'MEDIA'}</div>
+      <div class="pi-meta">
+        ${avCount}
+        <button class="pi-menu-btn" onclick="event.stopPropagation();openCtx(event,'${i.id}',${!!i.pinned})">⋯</button>
       </div>
-      <div class="${priClass}">${priLabel}</div>
     </div>
   </div>`;
 }
 
-// ── SWIPE ──
-const swipeState = {};
-window.swipeStart = (e,id) => { swipeState[id] = {x: e.touches[0].clientX, swiped:false}; };
-window.swipeMove = (e,id) => {
-  if (!swipeState[id]) return;
-  const dx = e.touches[0].clientX - swipeState[id].x;
-  if (dx < -10) {
-    const el = document.getElementById('pis-'+id);
-    const clamped = Math.max(dx, -180);
-    el.style.transform = `translateX(${clamped}px)`;
-    el.style.transition = 'none';
-    swipeState[id].swiped = true;
+function updateProgress(items){
+  const total=items.length,done=items.filter(i=>i.done).length;
+  const pct=total?Math.round(done/total*100):0;
+  document.getElementById('pbar').style.width=pct+'%';
+  document.getElementById('ptxt').textContent=`${done} de ${total} completados`;
+  document.getElementById('ppct').textContent=pct+'%';
+}
+
+// ── SWIPE TO COMPLETE ──
+const sw={};
+window.swStart=(e,id)=>{sw[id]={x:e.touches[0].clientX};};
+window.swMove=(e,id)=>{
+  if(!sw[id])return;
+  const dx=e.touches[0].clientX-sw[id].x;
+  if(dx>15){
+    const el=document.getElementById('pi-'+id);
+    el.style.transform=`translateX(${Math.min(dx,80)}px)`;
+    el.style.transition='none';
+    sw[id].moved=true;
   }
 };
-window.swipeEnd = (e,id) => {
-  if (!swipeState[id]) return;
-  const el = document.getElementById('pis-'+id);
-  const dx = e.changedTouches[0].clientX - swipeState[id].x;
-  el.style.transition = 'transform .25s cubic-bezier(.4,0,.2,1)';
-  el.style.transform = dx < -60 ? 'translateX(-180px)' : 'translateX(0)';
-  delete swipeState[id];
-};
-window.resetSwipe = (id) => {
-  const el = document.getElementById('pis-'+id);
-  if (el) { el.style.transition = 'transform .25s'; el.style.transform = 'translateX(0)'; }
+window.swEnd=(e,id)=>{
+  if(!sw[id])return;
+  const dx=e.changedTouches[0].clientX-sw[id].x;
+  const el=document.getElementById('pi-'+id);
+  el.style.transition='transform .25s';
+  el.style.transform='translateX(0)';
+  if(dx>60&&sw[id].moved){
+    const pi=el;
+    const isDone=pi.classList.contains('done');
+    toggleDone(id,isDone);
+  }
+  delete sw[id];
 };
 
-// ── AVANCES DRAWER ──
-let activeAvanceId = null;
-let avancesUnsub = null;
-
-window.openAvances = (id, title, sub) => {
-  activeAvanceId = id;
-  document.getElementById('drawer-pending-title').textContent = title;
-  document.getElementById('drawer-pending-sub').textContent = sub || '';
-  document.getElementById('avances-list').innerHTML = '<div class="empty" style="padding:20px 0">Cargando...</div>';
-  document.getElementById('drawer-avances').classList.add('open');
-  if (avancesUnsub) avancesUnsub();
-  const q = query(collection(db,'pendientes',id,'avances'), orderBy('createdAt','desc'));
-  avancesUnsub = onSnapshot(q, snap => {
-    const items = snap.docs.map(d => ({id:d.id,...d.data()}));
-    renderAvances(items);
+// ── TOGGLE DONE ──
+window.toggleDone=async(id,done)=>{
+  await updateDoc(doc(db,'pendientes',id),{
+    done:!done,
+    doneBy:!done?currentUser.displayName?.split(' ')[0]:null,
+    doneAt:!done?new Date().toLocaleString('es-MX',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'}):null
   });
 };
 
-window.closeDrawer = () => {
-  document.getElementById('drawer-avances').classList.remove('open');
-  if (avancesUnsub) { avancesUnsub(); avancesUnsub = null; }
-  activeAvanceId = null;
+// ── CONTEXT MENU ──
+window.openCtx=(e,id,pinned)=>{
+  ctxTarget={id,pinned};
+  const m=document.getElementById('ctx-menu');
+  document.getElementById('ctx-pin').textContent=pinned?'📌 Quitar fijado':'📌 Fijar';
+  document.getElementById('ctx-pin').classList.toggle('pin-on',!pinned);
+  m.style.display='block';
+  const x=Math.min(e.clientX,window.innerWidth-160);
+  const y=Math.min(e.clientY+4,window.innerHeight-100);
+  m.style.left=x+'px'; m.style.top=y+'px';
+  setTimeout(()=>document.addEventListener('click',closeCtx,{once:true}),10);
+};
+function closeCtx(){document.getElementById('ctx-menu').style.display='none';}
+window.ctxPin=async()=>{
+  if(!ctxTarget)return;
+  await updateDoc(doc(db,'pendientes',ctxTarget.id),{pinned:!ctxTarget.pinned});
+  closeCtx();
+};
+window.ctxDelete=()=>{
+  if(!ctxTarget)return;
+  deleteTarget={type:'pending',id:ctxTarget.id};
+  document.getElementById('del-title').textContent='¿Borrar este pendiente?';
+  document.getElementById('modal-delete').classList.add('open');
+  closeCtx();
 };
 
-document.getElementById('drawer-avances').addEventListener('click', e => {
-  if (e.target === document.getElementById('drawer-avances')) closeDrawer();
-});
-
-window.switchAvTab = (tab) => {
-  document.querySelectorAll('.av-tab').forEach((t,i) => {
-    t.classList.toggle('active', ['nota','link','doc'][i] === tab);
+// ── ADD PENDING ──
+window.openAddPending=()=>{
+  ['m-text','m-sub','m-due'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('modal-pending').classList.add('open');
+  setTimeout(()=>document.getElementById('m-text').focus(),100);
+};
+window.addPending=async()=>{
+  const text=document.getElementById('m-text').value.trim();
+  if(!text)return;
+  const today=new Date().toISOString().split('T')[0];
+  await addDoc(collection(db,'pendientes'),{
+    text,sub:document.getElementById('m-sub').value.trim(),
+    pri:document.getElementById('m-pri').value,
+    done:false,pinned:false,doneBy:null,doneAt:null,
+    avanceCount:0,
+    createdDate:today,
+    dueDate:document.getElementById('m-due').value||null,
+    createdBy:currentUser.email,createdAt:serverTimestamp()
   });
-  document.querySelectorAll('.av-forms > div').forEach((d,i) => {
-    d.classList.toggle('show', ['avf-nota','avf-link','avf-doc'][i] === 'avf-'+tab);
+  closeModal('modal-pending');
+};
+
+// ── PANEL ──
+window.openPanel=async(id)=>{
+  // Get latest data from already-rendered items
+  activePendingId=id;
+  const el=document.getElementById('pi-'+id);
+  if(!el)return;
+  // Read from Firestore for fresh data
+  const {getDoc}=await import("https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js");
+  const snap=await getDoc(doc(db,'pendientes',id));
+  if(!snap.exists())return;
+  activePendingData={id,...snap.data()};
+  renderPanelView(activePendingData);
+  document.getElementById('panel-bg').classList.add('open');
+  // Listen avances
+  if(avUnsub)avUnsub();
+  const aq=query(collection(db,'pendientes',id,'avances'),orderBy('createdAt','desc'));
+  avUnsub=onSnapshot(aq,snap=>{
+    renderAvList(snap.docs.map(d=>({id:d.id,...d.data()})));
+    // update count
+    updateDoc(doc(db,'pendientes',id),{avanceCount:snap.size}).catch(()=>{});
   });
 };
 
-window.addAvance = async (type) => {
-  if (!activeAvanceId) return;
-  let data = { type, createdAt: serverTimestamp(),
-    author: currentUser.displayName?.split(' ')[0] || 'Usuario',
-    authorKey: currentUser.email === 'anned7015@gmail.com' ? 'andrea' : 'martin' };
-  if (type === 'nota') {
-    const txt = document.getElementById('av-nota-txt').value.trim();
-    if (!txt) return;
-    data.text = txt;
-    document.getElementById('av-nota-txt').value = '';
-  } else if (type === 'link') {
-    const url = document.getElementById('av-link-url').value.trim();
-    if (!url) return;
-    data.url = url;
-    data.desc = document.getElementById('av-link-desc').value.trim() || url;
-    document.getElementById('av-link-url').value = '';
-    document.getElementById('av-link-desc').value = '';
-  } else if (type === 'doc') {
-    const name = document.getElementById('av-doc-name').value.trim();
-    const url = document.getElementById('av-doc-url').value.trim();
-    if (!name && !url) return;
-    data.name = name; data.url = url;
-    document.getElementById('av-doc-name').value = '';
-    document.getElementById('av-doc-url').value = '';
+function renderPanelView(i){
+  panelEditMode=false;
+  document.getElementById('panel-view-mode').style.display='block';
+  document.getElementById('panel-edit-mode').style.display='none';
+  document.getElementById('panel-edit-btn').textContent='✏️ Editar';
+  document.getElementById('panel-title-view').textContent=i.text||'';
+  document.getElementById('panel-sub-view').textContent=i.sub||'';
+  const priLabel=i.pri==='ALTA'?'🔴 Alta':i.pri==='MEDIA'?'🟡 Media':'⚪ Baja';
+  document.getElementById('panel-pri-view').textContent=priLabel;
+  const dv=document.getElementById('panel-dates-view');
+  const overdue=!i.done&&isOverdue(i.dueDate);
+  dv.innerHTML=`
+    ${i.createdDate?`<span class="pi-date">📅 Creado: ${fmt(i.createdDate)}</span>`:''}
+    ${i.dueDate?`<span class="pi-date ${overdue?'overdue':'due'}">🗓 Entrega: ${fmt(i.dueDate)}${overdue?' · vencido':''}</span>`:''}
+  `;
+}
+
+window.togglePanelEdit=()=>{
+  panelEditMode=!panelEditMode;
+  const i=activePendingData;
+  if(panelEditMode){
+    document.getElementById('panel-view-mode').style.display='none';
+    document.getElementById('panel-edit-mode').style.display='block';
+    document.getElementById('panel-edit-btn').textContent='✕ Cancelar';
+    document.getElementById('panel-title-input').value=i.text||'';
+    document.getElementById('panel-sub-input').value=i.sub||'';
+    document.getElementById('panel-created-input').value=i.createdDate||'';
+    document.getElementById('panel-due-input').value=i.dueDate||'';
+    document.getElementById('panel-pri-input').value=i.pri||'MEDIA';
+  } else {
+    renderPanelView(activePendingData);
   }
-  await addDoc(collection(db,'pendientes',activeAvanceId,'avances'), data);
-  await updateDoc(doc(db,'pendientes',activeAvanceId), { avanceCount: (await (async()=>{
-    const {getCountFromServer} = await import("https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js");
-    const snap = await getCountFromServer(collection(db,'pendientes',activeAvanceId,'avances'));
-    return snap.data().count;
-  }))() });
 };
 
-window.deleteAvance = async (avId) => {
-  if (!activeAvanceId) return;
-  await deleteDoc(doc(db,'pendientes',activeAvanceId,'avances',avId));
+window.savePanelEdit=async()=>{
+  if(!activePendingId)return;
+  const updates={
+    text:document.getElementById('panel-title-input').value.trim()||activePendingData.text,
+    sub:document.getElementById('panel-sub-input').value.trim(),
+    createdDate:document.getElementById('panel-created-input').value||activePendingData.createdDate,
+    dueDate:document.getElementById('panel-due-input').value||null,
+    pri:document.getElementById('panel-pri-input').value,
+  };
+  await updateDoc(doc(db,'pendientes',activePendingId),updates);
+  activePendingData={...activePendingData,...updates};
+  renderPanelView(activePendingData);
 };
 
-function renderAvances(items) {
-  if (!items.length) {
-    document.getElementById('avances-list').innerHTML = '<div class="empty" style="padding:20px 0">Sin avances aún</div>';
-    return;
+window.closePanel=()=>{
+  document.getElementById('panel-bg').classList.remove('open');
+  if(avUnsub){avUnsub();avUnsub=null;}
+  activePendingId=null;activePendingData=null;
+};
+window.closePanelIfBg=(e)=>{if(e.target===document.getElementById('panel-bg'))closePanel();};
+
+// ── AVANCES ──
+window.switchAvTab=(tab)=>{
+  document.querySelectorAll('.av-tab').forEach((t,i)=>t.classList.toggle('active',['nota','link','doc'][i]===tab));
+  document.querySelectorAll('.av-forms>div').forEach((d,i)=>d.classList.toggle('show',['avf-nota','avf-link','avf-doc'][i]==='avf-'+tab));
+};
+
+window.addAvance=async(type)=>{
+  if(!activePendingId)return;
+  let data={type,createdAt:serverTimestamp(),
+    author:currentUser.displayName?.split(' ')[0]||'Usuario',
+    authorKey:currentUser.email==='anned7015@gmail.com'?'andrea':'martin'};
+  if(type==='nota'){
+    const txt=document.getElementById('av-nota-txt').value.trim();
+    if(!txt)return; data.text=txt;
+    document.getElementById('av-nota-txt').value='';
+  } else if(type==='link'){
+    const url=document.getElementById('av-link-url').value.trim();
+    if(!url)return; data.url=url;
+    data.desc=document.getElementById('av-link-desc').value.trim()||url;
+    document.getElementById('av-link-url').value='';
+    document.getElementById('av-link-desc').value='';
+  } else if(type==='doc'){
+    const name=document.getElementById('av-doc-name').value.trim();
+    const url=document.getElementById('av-doc-url').value.trim();
+    if(!name&&!url)return; data.name=name;data.url=url;
+    document.getElementById('av-doc-name').value='';
+    document.getElementById('av-doc-url').value='';
   }
-  const icons = { nota:'📝', link:'🔗', doc:'📄' };
-  document.getElementById('avances-list').innerHTML = items.map(a => {
-    const ts = a.createdAt?.toDate?.()?.toLocaleString('es-MX',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'}) || '';
-    let body = '';
-    if (a.type === 'nota') body = `<div class="avance-text">${a.text}</div>`;
-    else if (a.type === 'link') body = `<a class="avance-link" href="${a.url}" target="_blank" rel="noopener">${a.desc||a.url}</a>`;
-    else if (a.type === 'doc') body = `<div class="avance-text">${a.name||''}</div>${a.url?`<a class="avance-link" href="${a.url}" target="_blank" rel="noopener">${a.url}</a>`:''}`;
-    return `<div class="avance-item">
-      <div class="avance-icon">${icons[a.type]||'📎'}</div>
-      <div class="avance-body">
+  await addDoc(collection(db,'pendientes',activePendingId,'avances'),data);
+};
+
+window.deleteAvance=async(avId)=>{
+  if(!activePendingId)return;
+  await deleteDoc(doc(db,'pendientes',activePendingId,'avances',avId));
+};
+
+function renderAvList(items){
+  if(!items.length){document.getElementById('av-list').innerHTML='<div class="empty" style="padding:16px 0">Sin avances aún</div>';return;}
+  const icons={nota:'📝',link:'🔗',doc:'📄'};
+  document.getElementById('av-list').innerHTML=items.map(a=>{
+    const ts=a.createdAt?.toDate?.()?.toLocaleString('es-MX',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})||'';
+    let body='';
+    if(a.type==='nota')body=`<div class="av-text">${a.text}</div>`;
+    else if(a.type==='link')body=`<a class="av-link" href="${a.url}" target="_blank" rel="noopener">${a.desc||a.url}</a>`;
+    else if(a.type==='doc')body=`${a.name?`<div class="av-text">${a.name}</div>`:''}${a.url?`<a class="av-link" href="${a.url}" target="_blank" rel="noopener">Abrir doc →</a>`:''}`;
+    const ak=a.authorKey||'andrea';
+    return `<div class="av-item">
+      <div class="av-icon">${icons[a.type]||'📎'}</div>
+      <div class="av-body">
         ${body}
-        <div class="avance-meta">${a.author||''} · ${ts}</div>
+        <div class="av-meta"><span class="nauthor ${ak}" style="padding:1px 5px;border-radius:8px">${a.author||ak}</span> · ${ts}</div>
       </div>
-      <button class="avance-del" onclick="deleteAvance('${a.id}')">✕</button>
+      <button class="av-del" onclick="deleteAvance('${a.id}')">✕</button>
     </div>`;
   }).join('');
 }
 
-function updateProgress(items) {
-  const total = items.length;
-  const done = items.filter(i => i.done).length;
-  const pct = total ? Math.round(done/total*100) : 0;
-  document.getElementById('pbar').style.width = pct+'%';
-  document.getElementById('ptxt').textContent = `${done} de ${total} completados`;
-  document.getElementById('ppct').textContent = pct+'%';
-}
-
 // ── NOTAS ──
-window.saveNote = async () => {
-  const body = document.getElementById('ni').value.trim();
-  if (!body) return;
-  await addDoc(collection(db,'notas'), {
-    body, pinned: false,
-    author: currentUser.displayName?.split(' ')[0] || 'Usuario',
-    authorEmail: currentUser.email,
-    authorKey: currentUser.email === 'anned7015@gmail.com' ? 'andrea' : 'martin',
-    // andrea = anned7015@gmail.com / martin = admondyc2017@gmail.com
-    createdAt: serverTimestamp()
+window.saveNote=async()=>{
+  const body=document.getElementById('ni').value.trim();
+  if(!body)return;
+  await addDoc(collection(db,'notas'),{
+    body,pinned:false,
+    author:currentUser.displayName?.split(' ')[0]||'Usuario',
+    authorEmail:currentUser.email,
+    authorKey:currentUser.email==='anned7015@gmail.com'?'andrea':'martin',
+    createdAt:serverTimestamp()
   });
-  document.getElementById('ni').value = '';
+  document.getElementById('ni').value='';
 };
-
-window.togglePinNote = async (id, pinned) => {
-  await updateDoc(doc(db,'notas',id), { pinned: !pinned });
-};
-
-window.deleteNote = (id) => {
-  deleteTarget = { type:'note', id };
-  document.getElementById('del-title').textContent = '¿Borrar esta nota?';
+window.togglePinNote=async(id,pinned)=>await updateDoc(doc(db,'notas',id),{pinned:!pinned});
+window.deleteNote=(id)=>{
+  deleteTarget={type:'note',id};
+  document.getElementById('del-title').textContent='¿Borrar esta nota?';
   document.getElementById('modal-delete').classList.add('open');
 };
-
-window.startEditNote = (id, body) => {
-  const el = document.getElementById('nb-'+id);
-  const ea = document.getElementById('nea-'+id);
-  const btn = document.getElementById('edit-btn-'+id);
-  ea.value = body;
-  ea.style.display = 'block';
-  el.classList.add('editing');
-  btn.textContent = '✕ Cancelar';
-  btn.onclick = () => cancelEdit(id, body);
-  ea.style.height = 'auto';
-  ea.style.height = ea.scrollHeight+'px';
+window.startEditNote=(id,body)=>{
+  const el=document.getElementById('nb-'+id);
+  const ea=document.getElementById('nea-'+id);
+  const btn=document.getElementById('edit-btn-'+id);
+  ea.value=decodeURIComponent(body);
+  ea.style.display='block'; el.classList.add('editing');
+  btn.textContent='✕'; btn.onclick=()=>cancelEdit(id,body);
 };
-
-window.cancelEdit = (id, body) => {
-  const el = document.getElementById('nb-'+id);
-  const ea = document.getElementById('nea-'+id);
-  const btn = document.getElementById('edit-btn-'+id);
-  ea.style.display = 'none';
-  el.classList.remove('editing');
-  btn.textContent = '✏️ Editar';
-  btn.onclick = () => startEditNote(id, body);
+window.cancelEdit=(id,body)=>{
+  document.getElementById('nea-'+id).style.display='none';
+  document.getElementById('nb-'+id).classList.remove('editing');
+  const btn=document.getElementById('edit-btn-'+id);
+  btn.textContent='✏️'; btn.onclick=()=>startEditNote(id,encodeURIComponent(document.getElementById('nb-'+id).textContent));
 };
-
-window.saveEdit = async (id) => {
-  const val = document.getElementById('nea-'+id).value.trim();
-  if (!val) return;
-  await updateDoc(doc(db,'notas',id), { body: val, editedAt: serverTimestamp() });
+window.saveEdit=async(id)=>{
+  const val=document.getElementById('nea-'+id).value.trim();
+  if(!val)return;
+  await updateDoc(doc(db,'notas',id),{body:val,editedAt:serverTimestamp()});
 };
-
-function renderNotas(notes) {
-  if (!notes.length) { document.getElementById('nlist').innerHTML = '<div class="empty">Sin notas aún</div>'; return; }
-  document.getElementById('nlist').innerHTML = notes.map(n => {
-    const ts = n.createdAt?.toDate?.()?.toLocaleString('es-MX',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'}) || '—';
-    const aKey = n.authorKey || 'andrea';
+function renderNotas(notes){
+  if(!notes.length){document.getElementById('nlist').innerHTML='<div class="empty">Sin notas aún</div>';return;}
+  document.getElementById('nlist').innerHTML=notes.map(n=>{
+    const ts=n.createdAt?.toDate?.()?.toLocaleString('es-MX',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})||'—';
+    const ak=n.authorKey||'andrea';
+    const enc=encodeURIComponent(n.body||'');
     return `<div class="snote${n.pinned?' pinned':''}">
       <div class="nts">
         ${n.pinned?'<span style="color:var(--gold)">📌</span>':''}
-        <span>${ts}</span>
-        <span class="nauthor ${aKey}">${n.author||aKey}</span>
+        <span>${ts}</span><span class="nauthor ${ak}">${n.author||ak}</span>
         ${n.editedAt?'<span style="color:var(--muted2)">(editado)</span>':''}
       </div>
       <div class="nb" id="nb-${n.id}">${n.body}</div>
       <textarea class="note-edit-area" id="nea-${n.id}" rows="3"></textarea>
       <div class="note-actions">
-        <button class="n-btn${n.pinned?' pin-active':''}" onclick="togglePinNote('${n.id}',${n.pinned})">📌 ${n.pinned?'Fijar·on':'Fijar'}</button>
-        <button class="n-btn" id="edit-btn-${n.id}" onclick="startEditNote('${n.id}','${encodeURIComponent(n.body)}')">✏️ Editar</button>
-        <button class="n-btn save-edit" onclick="saveEdit('${n.id}')">💾 Guardar</button>
-        <button class="n-btn del" onclick="deleteNote('${n.id}')">🗑 Borrar</button>
+        <button class="n-btn${n.pinned?' pin-active':''}" onclick="togglePinNote('${n.id}',${n.pinned})">📌</button>
+        <button class="n-btn" id="edit-btn-${n.id}" onclick="startEditNote('${n.id}','${enc}')">✏️</button>
+        <button class="n-btn save-edit" onclick="saveEdit('${n.id}')">💾</button>
+        <button class="n-btn del" onclick="deleteNote('${n.id}')">🗑</button>
       </div>
     </div>`;
   }).join('');
-  // Fix edit buttons with encoded body
-  notes.forEach(n => {
-    const btn = document.getElementById('edit-btn-'+n.id);
-    if (btn) btn.onclick = () => startEditNote(n.id, decodeURIComponent(encodeURIComponent(n.body)));
-  });
 }
 
-// ── DELETE CONFIRM ──
-window.confirmDelete = async () => {
-  if (!deleteTarget) return;
-  const col = deleteTarget.type === 'note' ? 'notas' : 'pendientes';
-  await deleteDoc(doc(db, col, deleteTarget.id));
-  deleteTarget = null;
-  closeModal('modal-delete');
+// ── DELETE ──
+window.confirmDelete=async()=>{
+  if(!deleteTarget)return;
+  await deleteDoc(doc(db,deleteTarget.type==='note'?'notas':'pendientes',deleteTarget.id));
+  deleteTarget=null; closeModal('modal-delete');
 };
 
-// ── MODALS ──
-window.closeModal = id => document.getElementById(id).classList.remove('open');
-window.showUserMenu = () => document.getElementById('modal-user').classList.add('open');
-
-// close modal on bg click
-document.querySelectorAll('.modal-bg').forEach(bg => {
-  bg.addEventListener('click', e => { if(e.target===bg) bg.classList.remove('open'); });
+// ── MODALS / UTILS ──
+window.closeModal=id=>document.getElementById(id).classList.remove('open');
+window.showUserMenu=()=>document.getElementById('modal-user').classList.add('open');
+document.querySelectorAll('.modal-bg').forEach(bg=>{
+  bg.addEventListener('click',e=>{if(e.target===bg)bg.classList.remove('open');});
 });
 </script>
 </body>
