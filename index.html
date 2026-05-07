@@ -176,6 +176,48 @@ body{display:flex;flex-direction:column;min-height:100dvh}
 .n-btn.pin-active{color:var(--gold);border-color:rgba(245,166,35,.3)}
 .n-btn.del{color:var(--red)}
 .n-btn.save-edit{color:var(--accent);border-color:rgba(79,142,247,.3)}
+/* ── SWIPE ACTIONS ── */
+.pi-wrap{position:relative;overflow:hidden;border-radius:var(--r-sm);margin-bottom:7px}
+.pi-swipe{display:flex;align-items:flex-start;gap:11px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r-sm);padding:13px;transition:transform .25s cubic-bezier(.4,0,.2,1);cursor:grab;user-select:none;position:relative;z-index:1}
+.pi-swipe.pinned{border-color:rgba(245,166,35,0.25);background:rgba(245,166,35,0.04)}
+.pi-swipe.done{opacity:.4}
+.pi-swipe.done .pt{text-decoration:line-through}
+.swipe-actions{position:absolute;right:0;top:0;bottom:0;display:flex;align-items:stretch;z-index:0;border-radius:0 var(--r-sm) var(--r-sm) 0;overflow:hidden}
+.sw-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;width:60px;gap:4px;border:none;cursor:pointer;font-size:18px;transition:opacity .15s}
+.sw-btn span{font-size:9px;font-weight:600;letter-spacing:.3px;font-family:'DM Sans',sans-serif}
+.sw-pin{background:#2d3d1a;color:#3ecf8e}
+.sw-edit{background:#1a2d4a;color:#4f8ef7}
+.sw-del{background:#3d1414;color:#e85d5d}
+.sw-btn:active{opacity:.75}
+
+/* ── AVANCES DRAWER ── */
+.drawer-bg{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:300;display:none;align-items:flex-end}
+.drawer-bg.open{display:flex}
+.drawer{background:var(--bg2);border-radius:20px 20px 0 0;width:100%;max-height:88dvh;display:flex;flex-direction:column;border-top:1px solid var(--border)}
+.drawer-handle{width:36px;height:4px;background:var(--muted2);border-radius:2px;margin:12px auto 0}
+.drawer-header{display:flex;align-items:center;justify-content:space-between;padding:14px 18px 10px}
+.drawer-title{font-size:15px;font-weight:500;color:var(--white)}
+.drawer-close{background:none;border:none;color:var(--muted);font-size:20px;cursor:pointer;padding:0;line-height:1}
+.drawer-body{flex:1;overflow-y:auto;padding:0 16px 24px}
+.avance-item{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r-sm);padding:12px 14px;margin-bottom:8px;display:flex;gap:10px;align-items:flex-start}
+.avance-icon{font-size:20px;flex-shrink:0;margin-top:1px}
+.avance-body{flex:1;min-width:0}
+.avance-text{font-size:13px;color:var(--white);line-height:1.45;word-break:break-word}
+.avance-link{font-size:13px;color:var(--accent);text-decoration:none;word-break:break-all}
+.avance-link:hover{text-decoration:underline}
+.avance-meta{font-size:10px;color:var(--muted2);margin-top:4px;font-family:'DM Mono',monospace}
+.avance-del{background:none;border:none;color:var(--muted2);font-size:14px;cursor:pointer;padding:0;flex-shrink:0;margin-top:1px}
+.avance-del:active{color:var(--red)}
+.add-avance-tabs{display:flex;gap:6px;margin-bottom:12px;padding-top:4px}
+.av-tab{flex:1;padding:9px 6px;border-radius:var(--r-xs);border:1px solid var(--border2);background:var(--bg3);color:var(--muted);font-size:12px;font-weight:500;cursor:pointer;text-align:center;font-family:'DM Sans',sans-serif;transition:all .15s}
+.av-tab.active{background:var(--accent-glow);color:var(--accent);border-color:rgba(79,142,247,.3)}
+.av-input{width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r-xs);padding:10px 12px;font-size:13px;color:var(--white);font-family:'DM Sans',sans-serif;outline:none;margin-bottom:8px}
+.av-input:focus{border-color:var(--accent)}
+.av-input::placeholder{color:var(--muted2)}
+.av-save{width:100%;padding:11px;background:var(--accent);color:var(--white);border:none;border-radius:var(--r-xs);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer}
+.av-save:active{opacity:.85}
+.av-forms > div{display:none}.av-forms > div.show{display:block}
+
 .pin-icon{font-size:12px}
 
 /* ── CONTACTOS ── */
@@ -324,6 +366,48 @@ body{display:flex;flex-direction:column;min-height:100dvh}
     </div>
 
   </main>
+</div>
+
+
+<!-- AVANCES DRAWER -->
+<div class="drawer-bg" id="drawer-avances">
+  <div class="drawer">
+    <div class="drawer-handle"></div>
+    <div class="drawer-header">
+      <div>
+        <div class="drawer-title" id="drawer-pending-title">Avances</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:2px" id="drawer-pending-sub"></div>
+      </div>
+      <button class="drawer-close" onclick="closeDrawer()">✕</button>
+    </div>
+    <div class="drawer-body">
+      <!-- Tabs agregar -->
+      <div class="add-avance-tabs">
+        <button class="av-tab active" onclick="switchAvTab('nota')">📝 Nota</button>
+        <button class="av-tab" onclick="switchAvTab('link')">🔗 Link</button>
+        <button class="av-tab" onclick="switchAvTab('doc')">📄 Doc</button>
+      </div>
+      <div class="av-forms">
+        <div id="avf-nota" class="show">
+          <textarea class="av-input" id="av-nota-txt" placeholder="Escribe un avance o comentario..." rows="3" style="resize:none"></textarea>
+          <button class="av-save" onclick="addAvance('nota')">Agregar nota</button>
+        </div>
+        <div id="avf-link">
+          <input class="av-input" id="av-link-url" placeholder="https://..." type="url">
+          <input class="av-input" id="av-link-desc" placeholder="Descripción (opcional)...">
+          <button class="av-save" onclick="addAvance('link')">Agregar link</button>
+        </div>
+        <div id="avf-doc">
+          <input class="av-input" id="av-doc-name" placeholder="Nombre del documento...">
+          <input class="av-input" id="av-doc-url" placeholder="URL o ruta del documento..." type="url">
+          <button class="av-save" onclick="addAvance('doc')">Agregar documento</button>
+        </div>
+      </div>
+      <!-- Lista avances -->
+      <div style="font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted2);margin:14px 0 8px">Historial de avances</div>
+      <div id="avances-list"><div class="empty" style="padding:20px 0">Sin avances aún</div></div>
+    </div>
+  </div>
 </div>
 
 <!-- MODAL AGREGAR PENDIENTE -->
@@ -557,20 +641,159 @@ function pHTML(i) {
   const priClass = i.pri==='ALTA' ? 'pa' : 'pm';
   const priLabel = i.pri || 'MEDIA';
   const doneBy = i.done && i.doneBy ? `<div class="dby">✓ ${i.doneBy} · ${i.doneAt||''}</div>` : '';
-  const pinBtn = `<button class="pi-btn${i.pinned?' pin-active':''}" onclick="togglePinP('${i.id}',${i.pinned})">📌 ${i.pinned?'Fijar·on':'Fijar'}</button>`;
-  return `<div class="pi${i.pinned?' pinned':''}${i.done?' done':''}">
-    <div class="cb" onclick="toggleDone('${i.id}',${i.done})"><svg class="ci" viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></div>
-    <div style="flex:1">
-      <div class="pt">${i.text}</div>
-      ${i.sub ? `<div class="psub">${i.sub}</div>` : ''}
-      ${doneBy}
-      <div class="pi-actions">
-        ${pinBtn}
-        <button class="pi-btn del" onclick="deletePending('${i.id}')">🗑 Borrar</button>
-      </div>
+  return `<div class="pi-wrap" id="wrap-${i.id}">
+    <div class="swipe-actions">
+      <button class="sw-btn sw-pin" onclick="togglePinP('${i.id}',${i.pinned});resetSwipe('${i.id}')">
+        ${i.pinned ? '📌' : '📌'}<span>${i.pinned?'Quitar':'Fijar'}</span>
+      </button>
+      <button class="sw-btn sw-edit" onclick="openAvances('${i.id}','${(i.text||'').replace(/'/g,"\'")}','${i.sub||''}');resetSwipe('${i.id}')">
+        📋<span>Avance</span>
+      </button>
+      <button class="sw-btn sw-del" onclick="deletePending('${i.id}');resetSwipe('${i.id}')">
+        🗑<span>Borrar</span>
+      </button>
     </div>
-    <div class="${priClass}">${priLabel}</div>
+    <div class="pi-swipe${i.pinned?' pinned':''}${i.done?' done':''}" id="pis-${i.id}"
+      ontouchstart="swipeStart(event,'${i.id}')"
+      ontouchmove="swipeMove(event,'${i.id}')"
+      ontouchend="swipeEnd(event,'${i.id}')">
+      <div class="cb" onclick="toggleDone('${i.id}',${i.done})">
+        <svg class="ci" viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg>
+      </div>
+      <div style="flex:1">
+        <div class="pt">${i.text}</div>
+        ${i.sub ? `<div class="psub">${i.sub}</div>` : ''}
+        ${doneBy}
+        ${i.avanceCount ? `<div style="font-size:10px;color:var(--accent);margin-top:4px">📋 ${i.avanceCount} avance${i.avanceCount>1?'s':''}</div>` : ''}
+      </div>
+      <div class="${priClass}">${priLabel}</div>
+    </div>
   </div>`;
+}
+
+// ── SWIPE ──
+const swipeState = {};
+window.swipeStart = (e,id) => { swipeState[id] = {x: e.touches[0].clientX, swiped:false}; };
+window.swipeMove = (e,id) => {
+  if (!swipeState[id]) return;
+  const dx = e.touches[0].clientX - swipeState[id].x;
+  if (dx < -10) {
+    const el = document.getElementById('pis-'+id);
+    const clamped = Math.max(dx, -180);
+    el.style.transform = `translateX(${clamped}px)`;
+    el.style.transition = 'none';
+    swipeState[id].swiped = true;
+  }
+};
+window.swipeEnd = (e,id) => {
+  if (!swipeState[id]) return;
+  const el = document.getElementById('pis-'+id);
+  const dx = e.changedTouches[0].clientX - swipeState[id].x;
+  el.style.transition = 'transform .25s cubic-bezier(.4,0,.2,1)';
+  el.style.transform = dx < -60 ? 'translateX(-180px)' : 'translateX(0)';
+  delete swipeState[id];
+};
+window.resetSwipe = (id) => {
+  const el = document.getElementById('pis-'+id);
+  if (el) { el.style.transition = 'transform .25s'; el.style.transform = 'translateX(0)'; }
+};
+
+// ── AVANCES DRAWER ──
+let activeAvanceId = null;
+let avancesUnsub = null;
+
+window.openAvances = (id, title, sub) => {
+  activeAvanceId = id;
+  document.getElementById('drawer-pending-title').textContent = title;
+  document.getElementById('drawer-pending-sub').textContent = sub || '';
+  document.getElementById('avances-list').innerHTML = '<div class="empty" style="padding:20px 0">Cargando...</div>';
+  document.getElementById('drawer-avances').classList.add('open');
+  if (avancesUnsub) avancesUnsub();
+  const q = query(collection(db,'pendientes',id,'avances'), orderBy('createdAt','desc'));
+  avancesUnsub = onSnapshot(q, snap => {
+    const items = snap.docs.map(d => ({id:d.id,...d.data()}));
+    renderAvances(items);
+  });
+};
+
+window.closeDrawer = () => {
+  document.getElementById('drawer-avances').classList.remove('open');
+  if (avancesUnsub) { avancesUnsub(); avancesUnsub = null; }
+  activeAvanceId = null;
+};
+
+document.getElementById('drawer-avances').addEventListener('click', e => {
+  if (e.target === document.getElementById('drawer-avances')) closeDrawer();
+});
+
+window.switchAvTab = (tab) => {
+  document.querySelectorAll('.av-tab').forEach((t,i) => {
+    t.classList.toggle('active', ['nota','link','doc'][i] === tab);
+  });
+  document.querySelectorAll('.av-forms > div').forEach((d,i) => {
+    d.classList.toggle('show', ['avf-nota','avf-link','avf-doc'][i] === 'avf-'+tab);
+  });
+};
+
+window.addAvance = async (type) => {
+  if (!activeAvanceId) return;
+  let data = { type, createdAt: serverTimestamp(),
+    author: currentUser.displayName?.split(' ')[0] || 'Usuario',
+    authorKey: currentUser.email === 'anned7015@gmail.com' ? 'andrea' : 'martin' };
+  if (type === 'nota') {
+    const txt = document.getElementById('av-nota-txt').value.trim();
+    if (!txt) return;
+    data.text = txt;
+    document.getElementById('av-nota-txt').value = '';
+  } else if (type === 'link') {
+    const url = document.getElementById('av-link-url').value.trim();
+    if (!url) return;
+    data.url = url;
+    data.desc = document.getElementById('av-link-desc').value.trim() || url;
+    document.getElementById('av-link-url').value = '';
+    document.getElementById('av-link-desc').value = '';
+  } else if (type === 'doc') {
+    const name = document.getElementById('av-doc-name').value.trim();
+    const url = document.getElementById('av-doc-url').value.trim();
+    if (!name && !url) return;
+    data.name = name; data.url = url;
+    document.getElementById('av-doc-name').value = '';
+    document.getElementById('av-doc-url').value = '';
+  }
+  await addDoc(collection(db,'pendientes',activeAvanceId,'avances'), data);
+  await updateDoc(doc(db,'pendientes',activeAvanceId), { avanceCount: (await (async()=>{
+    const {getCountFromServer} = await import("https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js");
+    const snap = await getCountFromServer(collection(db,'pendientes',activeAvanceId,'avances'));
+    return snap.data().count;
+  }))() });
+};
+
+window.deleteAvance = async (avId) => {
+  if (!activeAvanceId) return;
+  await deleteDoc(doc(db,'pendientes',activeAvanceId,'avances',avId));
+};
+
+function renderAvances(items) {
+  if (!items.length) {
+    document.getElementById('avances-list').innerHTML = '<div class="empty" style="padding:20px 0">Sin avances aún</div>';
+    return;
+  }
+  const icons = { nota:'📝', link:'🔗', doc:'📄' };
+  document.getElementById('avances-list').innerHTML = items.map(a => {
+    const ts = a.createdAt?.toDate?.()?.toLocaleString('es-MX',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'}) || '';
+    let body = '';
+    if (a.type === 'nota') body = `<div class="avance-text">${a.text}</div>`;
+    else if (a.type === 'link') body = `<a class="avance-link" href="${a.url}" target="_blank" rel="noopener">${a.desc||a.url}</a>`;
+    else if (a.type === 'doc') body = `<div class="avance-text">${a.name||''}</div>${a.url?`<a class="avance-link" href="${a.url}" target="_blank" rel="noopener">${a.url}</a>`:''}`;
+    return `<div class="avance-item">
+      <div class="avance-icon">${icons[a.type]||'📎'}</div>
+      <div class="avance-body">
+        ${body}
+        <div class="avance-meta">${a.author||''} · ${ts}</div>
+      </div>
+      <button class="avance-del" onclick="deleteAvance('${a.id}')">✕</button>
+    </div>`;
+  }).join('');
 }
 
 function updateProgress(items) {
