@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0a0f1e">
+<title>DyC</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0a0f1e;--bg2:#111827;--bg3:#1a2235;
+  --accent:#4f8ef7;--accent2:#3a7bd5;--accent-glow:rgba(79,142,247,0.15);
+  --gold:#f5a623;--gold-soft:rgba(245,166,35,0.12);
+  --red:#e85d5d;--red-soft:rgba(232,93,93,0.12);
+  --green:#3ecf8e;--green-soft:rgba(62,207,142,0.12);
+  --white:#e8edf8;--muted:#6b80a8;--muted2:#3d4f6e;
+  --border:rgba(79,142,247,0.12);--border2:rgba(255,255,255,0.06);
+  --r:16px;--r-sm:10px;--r-xs:7px;
+}
+html,body{height:100%;background:var(--bg);color:var(--white);font-family:'DM Sans',sans-serif;-webkit-font-smoothing:antialiased;overscroll-behavior:none}
+body{display:flex;flex-direction:column;min-height:100dvh}
+
+/* ── LOADING ── */
+#loading{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;z-index:999}
+.load-logo{font-size:32px;font-weight:600;letter-spacing:-1px;color:var(--white)}
+.load-sub{font-size:11px;color:var(--muted);letter-spacing:2px;text-transform:uppercase}
+.spinner{width:24px;height:24px;border:2px solid var(--border2);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite;margin-top:8px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ── LOGIN ── */
+#login{flex:1;display:none;flex-direction:column;align-items:center;justify-content:center;padding:40px 28px;gap:0}
+.login-mark{font-size:40px;font-weight:700;letter-spacing:-2px;color:var(--white);line-height:1}
+.login-tagline{font-size:12px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin:8px 0 48px}
+.google-btn{
+  display:flex;align-items:center;justify-content:center;gap:12px;
+  width:100%;max-width:320px;padding:15px 20px;
+  background:var(--white);color:#1a1a2e;border:none;border-radius:var(--r-sm);
+  font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;cursor:pointer;
+  transition:opacity .15s;-webkit-tap-highlight-color:transparent;
+}
+.google-btn:active{opacity:.85}
+.google-icon{width:20px;height:20px;flex-shrink:0}
+.login-note{font-size:12px;color:var(--muted);margin-top:20px;text-align:center;line-height:1.7}
+.login-restricted{font-size:11px;color:var(--muted2);margin-top:8px;text-align:center}
+
+/* ── HEADER ── */
+.app-header{
+  background:var(--bg);padding:env(safe-area-inset-top,0px) 0 0;
+  padding-top:max(env(safe-area-inset-top,0px),0px);
+  position:sticky;top:0;z-index:100;border-bottom:1px solid var(--border)
+}
+.header-inner{display:flex;align-items:center;justify-content:space-between;padding:14px 18px}
+.logo{font-size:18px;font-weight:600;letter-spacing:-0.5px}
+.logo span{color:var(--accent)}
+.user-chip{
+  display:flex;align-items:center;gap:8px;padding:6px 10px 6px 7px;
+  border-radius:20px;border:1px solid var(--border);background:var(--bg3);
+  cursor:pointer;-webkit-tap-highlight-color:transparent;transition:background .15s
+}
+.user-chip:active{background:var(--bg2)}
+.uavatar{width:24px;height:24px;border-radius:50%;object-fit:cover;flex-shrink:0}
+.uname{font-size:12px;color:var(--muted);font-weight:400}
+.tabs{display:flex;overflow-x:auto;scrollbar-width:none;padding:0 4px}
+.tabs::-webkit-scrollbar{display:none}
+.tab{
+  flex-shrink:0;padding:11px 14px;font-size:13px;color:var(--muted);cursor:pointer;
+  border-bottom:2px solid transparent;transition:all .18s;white-space:nowrap;
+  background:none;border-left:none;border-right:none;border-top:none;
+  font-family:'DM Sans',sans-serif;letter-spacing:.2px
+}
+.tab.active{color:var(--accent);border-bottom-color:var(--accent);font-weight:500}
+
+/* ── SYNC ── */
+.sync-bar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:6px 18px;background:rgba(79,142,247,0.04);
+  border-bottom:1px solid var(--border);font-size:11px;color:var(--muted);
+  font-family:'DM Mono',monospace
+}
+.s-dot{width:6px;height:6px;border-radius:50%;background:var(--green);display:inline-block;margin-right:5px;vertical-align:middle;transition:background .3s}
+.s-dot.live{animation:blink 2s infinite}
+.s-dot.err{background:var(--red)}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* ── CONTENT ── */
+.content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:18px 16px;padding-bottom:max(env(safe-area-inset-bottom,0px),72px)}
+.view{display:none}.view.active{display:block}
+
+/* ── CARDS ── */
+.card{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r);padding:16px;margin-bottom:10px}
+.card-label{font-size:10px;font-weight:500;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
+.card-title{font-size:15px;font-weight:500;color:var(--white);line-height:1.4}
+.card-sub{font-size:13px;color:var(--muted);margin-top:3px;line-height:1.5}
+.badge{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:500;padding:3px 8px;border-radius:20px;margin-top:7px}
+.bw{background:var(--gold-soft);color:var(--gold)}
+.bd{background:var(--red-soft);color:var(--red)}
+.bg{background:var(--green-soft);color:var(--green)}
+.bi{background:var(--accent-glow);color:var(--accent)}
+.dot{width:5px;height:5px;border-radius:50%;background:currentColor;flex-shrink:0}
+.sec{font-size:10px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted2);margin:18px 0 8px}
+.sec:first-child{margin-top:0}
+
+/* ── HIGHLIGHT ── */
+.hlcard{background:linear-gradient(135deg,rgba(79,142,247,0.1) 0%,rgba(26,34,53,0.8) 100%);border:1px solid rgba(79,142,247,0.2);border-radius:var(--r);padding:16px;margin-bottom:10px}
+.hcl{font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:var(--accent);font-weight:500;margin-bottom:5px}
+.hcv{font-family:'DM Mono',monospace;font-size:13px;color:var(--white)}
+
+/* ── PROGRESS ── */
+.pw{background:var(--bg2);border-radius:4px;height:3px;margin-top:10px;overflow:hidden}
+.pb{height:100%;background:var(--accent);border-radius:4px;transition:width .5s ease}
+.pl{font-size:11px;color:var(--muted);margin-top:5px;font-family:'DM Mono',monospace}
+
+/* ── PENDIENTES ── */
+.pi{
+  display:flex;align-items:flex-start;gap:11px;background:var(--bg3);
+  border:1px solid var(--border2);border-radius:var(--r-sm);padding:13px;
+  margin-bottom:7px;-webkit-tap-highlight-color:transparent;transition:background .15s
+}
+.pi.pinned{border-color:rgba(245,166,35,0.25);background:rgba(245,166,35,0.04)}
+.pi.done{opacity:.4}
+.pi.done .pt{text-decoration:line-through}
+.cb{width:20px;height:20px;border-radius:6px;border:1.5px solid var(--muted2);flex-shrink:0;display:flex;align-items:center;justify-content:center;margin-top:1px;transition:all .15s;cursor:pointer}
+.pi.done .cb{background:var(--green);border-color:var(--green)}
+.ci{width:10px;height:10px;stroke:var(--bg);stroke-width:2.5;fill:none;display:none}
+.pi.done .ci{display:block}
+.pt{font-size:14px;color:var(--white);line-height:1.45;flex:1}
+.psub{font-size:11px;color:var(--muted);margin-top:3px;line-height:1.4}
+.dby{font-size:10px;color:var(--muted2);margin-top:4px;font-family:'DM Mono',monospace}
+.pa{color:var(--red);font-size:9px;font-weight:600;flex-shrink:0;margin-top:3px;letter-spacing:.5px}
+.pm{color:var(--gold);font-size:9px;font-weight:600;flex-shrink:0;margin-top:3px;letter-spacing:.5px}
+.pi-actions{display:flex;gap:6px;margin-top:8px}
+.pi-btn{font-size:11px;color:var(--muted);background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r-xs);padding:4px 9px;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:all .15s;font-family:'DM Sans',sans-serif}
+.pi-btn:active{background:var(--bg3)}
+.pi-btn.pin-active{color:var(--gold);border-color:rgba(245,166,35,0.3)}
+.pi-btn.del{color:var(--red)}
+
+/* ── NOTAS ── */
+.note-area{
+  background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r);
+  padding:14px;font-size:14px;color:var(--white);width:100%;min-height:90px;
+  resize:none;font-family:'DM Sans',sans-serif;line-height:1.6;outline:none;
+  transition:border-color .15s
+}
+.note-area:focus{border-color:var(--accent)}
+.note-area::placeholder{color:var(--muted2)}
+.save-btn{
+  width:100%;padding:13px;background:var(--accent);color:var(--white);border:none;
+  border-radius:var(--r-sm);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;
+  cursor:pointer;margin-top:8px;-webkit-tap-highlight-color:transparent;transition:opacity .15s
+}
+.save-btn:active{opacity:.85}
+.snote{
+  background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r-sm);
+  padding:13px;margin-bottom:7px;transition:border-color .15s
+}
+.snote.pinned{border-color:rgba(245,166,35,0.3);background:rgba(245,166,35,0.04)}
+.nts{font-size:10px;color:var(--muted2);font-family:'DM Mono',monospace;margin-bottom:6px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.nauthor{font-size:10px;font-weight:600;padding:2px 7px;border-radius:10px}
+.nauthor.andrea{background:var(--green-soft);color:var(--green)}
+.nauthor.martin{background:var(--accent-glow);color:var(--accent)}
+.nb{font-size:13px;color:var(--white);line-height:1.55;white-space:pre-wrap}
+.nb.editing{display:none}
+.note-edit-area{width:100%;background:var(--bg2);border:1px solid var(--accent);border-radius:var(--r-xs);padding:10px;font-size:13px;color:var(--white);font-family:'DM Sans',sans-serif;line-height:1.55;resize:none;outline:none;margin-top:6px;display:none}
+.note-actions{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+.n-btn{font-size:11px;color:var(--muted);background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r-xs);padding:4px 9px;cursor:pointer;-webkit-tap-highlight-color:transparent;font-family:'DM Sans',sans-serif}
+.n-btn:active{opacity:.75}
+.n-btn.pin-active{color:var(--gold);border-color:rgba(245,166,35,.3)}
+.n-btn.del{color:var(--red)}
+.n-btn.save-edit{color:var(--accent);border-color:rgba(79,142,247,.3)}
+.pin-icon{font-size:12px}
+
+/* ── CONTACTOS ── */
+.ccard{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r);padding:14px 16px;margin-bottom:10px}
+.cname{font-size:15px;font-weight:500;color:var(--white)}
+.crole{font-size:12px;color:var(--muted);margin-top:2px}
+.cacts{display:flex;gap:8px;margin-top:12px}
+.cbtn{flex:1;padding:9px;border-radius:var(--r-xs);border:1px solid var(--border2);background:var(--bg2);color:var(--accent);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;cursor:pointer;text-align:center;-webkit-tap-highlight-color:transparent}
+.cbtn:active{opacity:.75}
+
+/* ── MODAL ── */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:200;display:none;align-items:flex-end;justify-content:center}
+.modal-bg.open{display:flex}
+.modal{background:var(--bg2);border-radius:var(--r) var(--r) 0 0;padding:20px 18px 32px;width:100%;max-width:480px;border-top:1px solid var(--border)}
+.modal h3{font-size:15px;font-weight:500;margin-bottom:14px;color:var(--white)}
+.modal input,.modal textarea{width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r-xs);padding:11px 13px;font-size:14px;color:var(--white);font-family:'DM Sans',sans-serif;outline:none;margin-bottom:10px}
+.modal input:focus,.modal textarea:focus{border-color:var(--accent)}
+.modal-btns{display:flex;gap:8px;margin-top:4px}
+.m-btn{flex:1;padding:12px;border-radius:var(--r-xs);border:none;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer}
+.m-btn.cancel{background:var(--bg3);color:var(--muted)}
+.m-btn.confirm{background:var(--accent);color:var(--white)}
+
+/* ── EMPTY ── */
+.empty{text-align:center;padding:36px 20px;color:var(--muted2);font-size:13px;line-height:1.7}
+</style>
+</head>
+<body>
+
+<!-- LOADING -->
+<div id="loading">
+  <div class="load-logo">DyC</div>
+  <div class="load-sub">Dirección y Control</div>
+  <div class="spinner"></div>
+</div>
+
+<!-- LOGIN -->
+<div id="login">
+  <div class="login-mark">DyC</div>
+  <div class="login-tagline">Dirección y Control</div>
+  <button class="google-btn" onclick="signInGoogle()">
+    <svg class="google-icon" viewBox="0 0 24 24">
+      <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+      <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+      <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+      <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+    </svg>
+    Entrar con Google
+  </button>
+  <div class="login-note">Sync en tiempo real entre Martín y Andrea</div>
+  <div class="login-restricted">Solo cuentas autorizadas pueden acceder</div>
+</div>
+
+<!-- APP -->
+<div id="app" style="display:none;flex-direction:column;flex:1">
+  <header class="app-header">
+    <div class="header-inner">
+      <div class="logo">D<span>y</span>C</div>
+      <div class="user-chip" onclick="showUserMenu()">
+        <img class="uavatar" id="uavatar" src="" alt="">
+        <span class="uname" id="uname"></span>
+      </div>
+    </div>
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('resumen')">Resumen</button>
+      <button class="tab" onclick="switchTab('pendientes')">Pendientes</button>
+      <button class="tab" onclick="switchTab('notas')">Notas</button>
+      <button class="tab" onclick="switchTab('contactos')">Contactos</button>
+    </div>
+  </header>
+  <div class="sync-bar">
+    <span><span class="s-dot live" id="sdot"></span><span id="slabel">En vivo</span></span>
+    <span style="font-size:10px;color:var(--muted2)" id="last-sync"></span>
+  </div>
+
+  <main class="content">
+
+    <!-- RESUMEN -->
+    <div class="view active" id="view-resumen">
+      <div class="hlcard"><div class="hcl">Empresa</div><div class="hcv">Dirección y Control (DyC)</div></div>
+      <div class="card">
+        <div class="card-label">Cliente principal</div>
+        <div class="card-title">Honeywell International</div>
+        <div class="card-sub">+ Honeywell Aerospace</div>
+        <span class="badge bw"><span class="dot"></span>Cambio de razón social pendiente</span>
+      </div>
+      <div class="card" style="border-color:rgba(232,93,93,0.2)">
+        <div class="card-label">Situación financiera</div>
+        <div class="card-title">Dinero parado</div>
+        <div class="card-sub">Órdenes canceladas/refacturadas · Facturas pendientes</div>
+        <span class="badge bd"><span class="dot"></span>Requiere acción inmediata</span>
+      </div>
+      <div class="sec">Avance general</div>
+      <div class="card">
+        <div class="card-sub" id="ptxt">Cargando...</div>
+        <div class="pw"><div class="pb" id="pbar" style="width:0%"></div></div>
+        <div class="pl" id="ppct"></div>
+      </div>
+    </div>
+
+    <!-- PENDIENTES -->
+    <div class="view" id="view-pendientes">
+      <div id="plist"><div class="empty">Cargando pendientes...</div></div>
+      <button class="save-btn" style="margin-top:4px" onclick="openAddPending()">+ Agregar pendiente</button>
+    </div>
+
+    <!-- NOTAS -->
+    <div class="view" id="view-notas">
+      <textarea class="note-area" id="ni" placeholder="Escribe una nota..."></textarea>
+      <button class="save-btn" onclick="saveNote()">Guardar nota</button>
+      <div class="sec" style="margin-top:20px">Notas</div>
+      <div id="nlist"><div class="empty">Sin notas aún</div></div>
+    </div>
+
+    <!-- CONTACTOS -->
+    <div class="view" id="view-contactos">
+      <div class="sec" style="margin-top:0">Contacto clave</div>
+      <div class="ccard">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+          <div style="width:42px;height:42px;border-radius:50%;background:var(--accent-glow);border:1px solid rgba(79,142,247,.3);display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;color:var(--accent);flex-shrink:0">JB</div>
+          <div><div class="cname">Jaime Barraza</div><div class="crole">Contacto de reactivación</div></div>
+        </div>
+        <span class="badge bw"><span class="dot"></span>Pendiente de contactar</span>
+        <div class="cacts"><div class="cbtn">📞 Llamar</div><div class="cbtn">✉️ Email</div></div>
+      </div>
+      <div class="sec">Clientes</div>
+      <div class="card">
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <div><div class="card-title">Honeywell International</div><div class="card-sub">Cliente extranjero principal</div></div>
+          <span class="badge bw" style="margin-top:0"><span class="dot"></span>Cambio</span>
+        </div>
+      </div>
+      <div class="card"><div class="card-title">Honeywell Aerospace</div><div class="card-sub">Cliente extranjero</div><span class="badge bg"><span class="dot"></span>Activo</span></div>
+      <div class="sec">Dirección</div>
+      <div class="card">
+        <div style="display:flex;align-items:center;gap:12px">
+          <div style="width:38px;height:38px;border-radius:50%;background:var(--accent-glow);border:1px solid rgba(79,142,247,.3);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--accent);flex-shrink:0">MD</div>
+          <div><div class="card-title">Martín Duarte</div><div class="card-sub">Director</div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div style="display:flex;align-items:center;gap:12px">
+          <div style="width:38px;height:38px;border-radius:50%;background:var(--green-soft);border:1px solid rgba(62,207,142,.3);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--green);flex-shrink:0">AD</div>
+          <div><div class="card-title">Andrea Delgado</div><div class="card-sub">Dirección y Control</div></div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- MODAL AGREGAR PENDIENTE -->
+<div class="modal-bg" id="modal-pending">
+  <div class="modal">
+    <h3>Nuevo pendiente</h3>
+    <input type="text" id="m-text" placeholder="Tarea..." maxlength="200">
+    <input type="text" id="m-sub" placeholder="Detalle (opcional)..." maxlength="200">
+    <select id="m-pri" style="width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r-xs);padding:11px 13px;font-size:14px;color:var(--white);font-family:'DM Sans',sans-serif;outline:none;margin-bottom:10px;-webkit-appearance:none">
+      <option value="ALTA">🔴 Prioridad alta</option>
+      <option value="MEDIA" selected>🟡 Prioridad media</option>
+      <option value="BAJA">⚪ Prioridad baja</option>
+    </select>
+    <div class="modal-btns">
+      <button class="m-btn cancel" onclick="closeModal('modal-pending')">Cancelar</button>
+      <button class="m-btn confirm" onclick="addPending()">Agregar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL CONFIRMAR BORRAR -->
+<div class="modal-bg" id="modal-delete">
+  <div class="modal">
+    <h3 id="del-title">¿Borrar este elemento?</h3>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:16px">Esta acción no se puede deshacer.</p>
+    <div class="modal-btns">
+      <button class="m-btn cancel" onclick="closeModal('modal-delete')">Cancelar</button>
+      <button class="m-btn confirm" style="background:var(--red)" onclick="confirmDelete()">Borrar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL USER MENU -->
+<div class="modal-bg" id="modal-user">
+  <div class="modal">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px">
+      <img id="menu-avatar" src="" style="width:44px;height:44px;border-radius:50%;object-fit:cover" alt="">
+      <div>
+        <div style="font-size:15px;font-weight:500" id="menu-name"></div>
+        <div style="font-size:12px;color:var(--muted)" id="menu-email"></div>
+      </div>
+    </div>
+    <button class="m-btn cancel" style="width:100%;margin-bottom:8px" onclick="closeModal('modal-user')">Cerrar</button>
+    <button class="m-btn confirm" style="width:100%;background:var(--red-soft);color:var(--red);border:1px solid rgba(232,93,93,.2)" onclick="signOut()">Cerrar sesión</button>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut as fbSignOut }
+  from "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js";
+import { getFirestore, collection, doc, addDoc, setDoc, updateDoc, deleteDoc,
+  onSnapshot, query, orderBy, serverTimestamp }
+  from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDctLc-zbyqhwwmkzGuJHMJu3zHRKxmUsg",
+  authDomain: "dyc-app-mx.firebaseapp.com",
+  projectId: "dyc-app-mx",
+  storageBucket: "dyc-app-mx.firebasestorage.app",
+  messagingSenderId: "1001634323927",
+  appId: "1:1001634323927:web:41da0e56a508511f2fff92"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+// Emails autorizados
+const ALLOWED = ['anned7015@gmail.com', 'admondyc2017@gmail.com'];
+
+let currentUser = null;
+let deleteTarget = null;
+let unsubs = [];
+
+// ── AUTH ──
+onAuthStateChanged(auth, user => {
+  document.getElementById('loading').style.display = 'none';
+  if (user && ALLOWED.includes(user.email)) {
+    currentUser = user;
+    showApp(user);
+    startListeners();
+  } else if (user) {
+    fbSignOut(auth);
+    showLogin();
+    alert('Acceso restringido. Contacta a Andrea para ser agregado.');
+  } else {
+    showLogin();
+  }
+});
+
+window.signInGoogle = async () => {
+  const provider = new GoogleAuthProvider();
+  try { await signInWithPopup(auth, provider); } catch(e) { console.error(e); }
+};
+
+window.signOut = async () => {
+  unsubs.forEach(u => u());
+  await fbSignOut(auth);
+  closeModal('modal-user');
+};
+
+function showLogin() {
+  document.getElementById('login').style.display = 'flex';
+  document.getElementById('app').style.display = 'none';
+}
+
+function showApp(user) {
+  document.getElementById('login').style.display = 'none';
+  const appEl = document.getElementById('app');
+  appEl.style.display = 'flex';
+  document.getElementById('uavatar').src = user.photoURL || '';
+  document.getElementById('uname').textContent = user.displayName?.split(' ')[0] || 'Usuario';
+  document.getElementById('menu-avatar').src = user.photoURL || '';
+  document.getElementById('menu-name').textContent = user.displayName || '';
+  document.getElementById('menu-email').textContent = user.email || '';
+}
+
+// ── SEED INICIAL ──
+const SEED = [
+  { text:'Investigar nueva razon social / denominacion de Honeywell International', sub:'Bloquea reactivacion de relacion comercial', pri:'ALTA' },
+  { text:'Revisar ordenes de compra canceladas y refacturadas (comprador Honeywell)', sub:'Revisar correos de transicion al nuevo fiscal', pri:'ALTA' },
+  { text:'Auditar facturas pendientes de cobro', sub:'Identificar cuales estan sin facturar y cuales refacturadas', pri:'ALTA' },
+  { text:'Regularizar facturas antes de contactar a Jaime Barraza', sub:'Paso previo obligatorio', pri:'ALTA' },
+  { text:'Definir procedimiento para reportes', sub:'Pendiente de checar', pri:'MEDIA' },
+  { text:'Contactar a Jaime Barraza para reactivar labores', sub:'Despues de resolver facturas', pri:'MEDIA' },
+];
+
+async function seedIfEmpty() {
+  const { getDocs } = await import("https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js");
+  const snap = await getDocs(collection(db,'pendientes'));
+  if (snap.empty) {
+    for (const p of SEED) {
+      await addDoc(collection(db,'pendientes'), {
+        ...p, done:false, pinned:false, doneBy:null, doneAt:null,
+        createdBy:'sistema', createdAt:serverTimestamp()
+      });
+    }
+  }
+}
+
+// ── FIRESTORE LISTENERS ──
+function startListeners() {
+  seedIfEmpty();
+  // Pendientes
+  const pq = query(collection(db,'pendientes'), orderBy('createdAt','asc'));
+  const u1 = onSnapshot(pq, snap => {
+    renderPendientes(snap.docs.map(d => ({id:d.id,...d.data()})));
+    updateSync();
+  });
+
+  // Notas
+  const nq = query(collection(db,'notas'), orderBy('pinned','desc'), orderBy('createdAt','desc'));
+  const u2 = onSnapshot(nq, snap => {
+    renderNotas(snap.docs.map(d => ({id:d.id,...d.data()})));
+    updateSync();
+  });
+
+  unsubs = [u1, u2];
+}
+
+function updateSync() {
+  const now = new Date();
+  document.getElementById('last-sync').textContent =
+    now.toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit'});
+}
+
+// ── TABS ──
+const TABS = ['resumen','pendientes','notas','contactos'];
+window.switchTab = id => {
+  document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', TABS[i]===id));
+  document.querySelectorAll('.view').forEach(v => v.classList.toggle('active', v.id==='view-'+id));
+};
+
+// ── PENDIENTES ──
+window.openAddPending = () => {
+  document.getElementById('m-text').value = '';
+  document.getElementById('m-sub').value = '';
+  document.getElementById('modal-pending').classList.add('open');
+  setTimeout(() => document.getElementById('m-text').focus(), 100);
+};
+
+window.addPending = async () => {
+  const text = document.getElementById('m-text').value.trim();
+  if (!text) return;
+  await addDoc(collection(db,'pendientes'), {
+    text, sub: document.getElementById('m-sub').value.trim(),
+    pri: document.getElementById('m-pri').value,
+    done: false, pinned: false,
+    doneBy: null, doneAt: null,
+    createdBy: currentUser.email,
+    createdAt: serverTimestamp()
+  });
+  closeModal('modal-pending');
+};
+
+window.toggleDone = async (id, done) => {
+  await updateDoc(doc(db,'pendientes',id), {
+    done: !done,
+    doneBy: !done ? currentUser.displayName?.split(' ')[0] : null,
+    doneAt: !done ? new Date().toLocaleString('es-MX',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'}) : null
+  });
+};
+
+window.togglePinP = async (id, pinned) => {
+  await updateDoc(doc(db,'pendientes',id), { pinned: !pinned });
+};
+
+window.deletePending = (id) => {
+  deleteTarget = { type:'pending', id };
+  document.getElementById('del-title').textContent = '¿Borrar este pendiente?';
+  document.getElementById('modal-delete').classList.add('open');
+};
+
+function renderPendientes(items) {
+  const pinned = items.filter(i => i.pinned && !i.done);
+  const alta = items.filter(i => !i.pinned && !i.done && i.pri==='ALTA');
+  const media = items.filter(i => !i.pinned && !i.done && i.pri!=='ALTA');
+  const done = items.filter(i => i.done);
+  let h = '';
+  if (pinned.length) { h += `<div class="sec" style="margin-top:0">📌 Fijados</div>`; pinned.forEach(i => h += pHTML(i)); }
+  if (alta.length) { h += `<div class="sec">Prioridad alta</div>`; alta.forEach(i => h += pHTML(i)); }
+  if (media.length) { h += `<div class="sec">Media / baja</div>`; media.forEach(i => h += pHTML(i)); }
+  if (done.length) { h += `<div class="sec">Completados (${done.length})</div>`; done.forEach(i => h += pHTML(i)); }
+  if (!h) h = '<div class="empty">Sin pendientes — todo listo 🎉</div>';
+  document.getElementById('plist').innerHTML = h;
+  updateProgress(items);
+}
+
+function pHTML(i) {
+  const priClass = i.pri==='ALTA' ? 'pa' : 'pm';
+  const priLabel = i.pri || 'MEDIA';
+  const doneBy = i.done && i.doneBy ? `<div class="dby">✓ ${i.doneBy} · ${i.doneAt||''}</div>` : '';
+  const pinBtn = `<button class="pi-btn${i.pinned?' pin-active':''}" onclick="togglePinP('${i.id}',${i.pinned})">📌 ${i.pinned?'Fijar·on':'Fijar'}</button>`;
+  return `<div class="pi${i.pinned?' pinned':''}${i.done?' done':''}">
+    <div class="cb" onclick="toggleDone('${i.id}',${i.done})"><svg class="ci" viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></div>
+    <div style="flex:1">
+      <div class="pt">${i.text}</div>
+      ${i.sub ? `<div class="psub">${i.sub}</div>` : ''}
+      ${doneBy}
+      <div class="pi-actions">
+        ${pinBtn}
+        <button class="pi-btn del" onclick="deletePending('${i.id}')">🗑 Borrar</button>
+      </div>
+    </div>
+    <div class="${priClass}">${priLabel}</div>
+  </div>`;
+}
+
+function updateProgress(items) {
+  const total = items.length;
+  const done = items.filter(i => i.done).length;
+  const pct = total ? Math.round(done/total*100) : 0;
+  document.getElementById('pbar').style.width = pct+'%';
+  document.getElementById('ptxt').textContent = `${done} de ${total} completados`;
+  document.getElementById('ppct').textContent = pct+'%';
+}
+
+// ── NOTAS ──
+window.saveNote = async () => {
+  const body = document.getElementById('ni').value.trim();
+  if (!body) return;
+  await addDoc(collection(db,'notas'), {
+    body, pinned: false,
+    author: currentUser.displayName?.split(' ')[0] || 'Usuario',
+    authorEmail: currentUser.email,
+    authorKey: currentUser.email === 'anned7015@gmail.com' ? 'andrea' : 'martin',
+    // andrea = anned7015@gmail.com / martin = admondyc2017@gmail.com
+    createdAt: serverTimestamp()
+  });
+  document.getElementById('ni').value = '';
+};
+
+window.togglePinNote = async (id, pinned) => {
+  await updateDoc(doc(db,'notas',id), { pinned: !pinned });
+};
+
+window.deleteNote = (id) => {
+  deleteTarget = { type:'note', id };
+  document.getElementById('del-title').textContent = '¿Borrar esta nota?';
+  document.getElementById('modal-delete').classList.add('open');
+};
+
+window.startEditNote = (id, body) => {
+  const el = document.getElementById('nb-'+id);
+  const ea = document.getElementById('nea-'+id);
+  const btn = document.getElementById('edit-btn-'+id);
+  ea.value = body;
+  ea.style.display = 'block';
+  el.classList.add('editing');
+  btn.textContent = '✕ Cancelar';
+  btn.onclick = () => cancelEdit(id, body);
+  ea.style.height = 'auto';
+  ea.style.height = ea.scrollHeight+'px';
+};
+
+window.cancelEdit = (id, body) => {
+  const el = document.getElementById('nb-'+id);
+  const ea = document.getElementById('nea-'+id);
+  const btn = document.getElementById('edit-btn-'+id);
+  ea.style.display = 'none';
+  el.classList.remove('editing');
+  btn.textContent = '✏️ Editar';
+  btn.onclick = () => startEditNote(id, body);
+};
+
+window.saveEdit = async (id) => {
+  const val = document.getElementById('nea-'+id).value.trim();
+  if (!val) return;
+  await updateDoc(doc(db,'notas',id), { body: val, editedAt: serverTimestamp() });
+};
+
+function renderNotas(notes) {
+  if (!notes.length) { document.getElementById('nlist').innerHTML = '<div class="empty">Sin notas aún</div>'; return; }
+  document.getElementById('nlist').innerHTML = notes.map(n => {
+    const ts = n.createdAt?.toDate?.()?.toLocaleString('es-MX',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'}) || '—';
+    const aKey = n.authorKey || 'andrea';
+    return `<div class="snote${n.pinned?' pinned':''}">
+      <div class="nts">
+        ${n.pinned?'<span style="color:var(--gold)">📌</span>':''}
+        <span>${ts}</span>
+        <span class="nauthor ${aKey}">${n.author||aKey}</span>
+        ${n.editedAt?'<span style="color:var(--muted2)">(editado)</span>':''}
+      </div>
+      <div class="nb" id="nb-${n.id}">${n.body}</div>
+      <textarea class="note-edit-area" id="nea-${n.id}" rows="3"></textarea>
+      <div class="note-actions">
+        <button class="n-btn${n.pinned?' pin-active':''}" onclick="togglePinNote('${n.id}',${n.pinned})">📌 ${n.pinned?'Fijar·on':'Fijar'}</button>
+        <button class="n-btn" id="edit-btn-${n.id}" onclick="startEditNote('${n.id}','${encodeURIComponent(n.body)}')">✏️ Editar</button>
+        <button class="n-btn save-edit" onclick="saveEdit('${n.id}')">💾 Guardar</button>
+        <button class="n-btn del" onclick="deleteNote('${n.id}')">🗑 Borrar</button>
+      </div>
+    </div>`;
+  }).join('');
+  // Fix edit buttons with encoded body
+  notes.forEach(n => {
+    const btn = document.getElementById('edit-btn-'+n.id);
+    if (btn) btn.onclick = () => startEditNote(n.id, decodeURIComponent(encodeURIComponent(n.body)));
+  });
+}
+
+// ── DELETE CONFIRM ──
+window.confirmDelete = async () => {
+  if (!deleteTarget) return;
+  const col = deleteTarget.type === 'note' ? 'notas' : 'pendientes';
+  await deleteDoc(doc(db, col, deleteTarget.id));
+  deleteTarget = null;
+  closeModal('modal-delete');
+};
+
+// ── MODALS ──
+window.closeModal = id => document.getElementById(id).classList.remove('open');
+window.showUserMenu = () => document.getElementById('modal-user').classList.add('open');
+
+// close modal on bg click
+document.querySelectorAll('.modal-bg').forEach(bg => {
+  bg.addEventListener('click', e => { if(e.target===bg) bg.classList.remove('open'); });
+});
+</script>
+</body>
+</html>
